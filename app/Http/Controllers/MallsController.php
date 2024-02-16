@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Http\Request;
+use PDO;
 
 class MallsController extends Controller
 {
@@ -44,9 +45,15 @@ class MallsController extends Controller
     public function NuevoMall(Request $request)
     {
         $post = $request->all();
+
         $idmall = auth()->user()->id_mall;
         $valida_reload = true;
         if (!empty($post)) {
+            // pre($post);
+
+            $camaras = $post['camaras'];
+
+
             // pre_die($post);
             // Validar los campos
             $validate = $this->ValidateFields($post);
@@ -231,23 +238,17 @@ class MallsController extends Controller
                     }
                 }
 
-                $camaras = [];
-                foreach ($post as $key => $value) {
-                    if (strpos($key, 'id_camara_') === 0) {
-                        // pre_die($key);
-                        // pre($key);
-                        $indexcode_camara = substr($key, 10); // Obtener el ID de la cámara
-                        // pre_die($indexcode_camara);
-                        $nombre_camara = $post['nombre_camara_' . $indexcode_camara];
-                        $estado_camara = $post['estado_camara_' . $indexcode_camara];
-                        $id_camara = $post['id_camara_'. $indexcode_camara];
-                        $estado_camara = $post['estado_camara_' . $indexcode_camara];
-                        // $camaras[] = ['id' => $id_camara, 'nombre' => $nombre_camara, 'estado' => $estado_camara];
+                // Iterar sobre cada par de marketing_id y nombre_camara
+                if (!empty($camaras)) {
+                    foreach ($camaras as $camara) {
+                        $marketing_id = $camara['marketing_id'];
+                        $nombre_camara = $camara['nombre_camara'];
+
                         $new_camera = [
                             'mall_id' => $mall_data->id,
-                            'entrada_marketing_id'=> $id_camara,
+                            'entrada_marketing_id' => $marketing_id,
                             'titulo_entrada' => $nombre_camara,
-                            'estado' => $estado_camara,
+                            'estado' => true,
                             'eliminado' => 0,
                             'created_at' => GetTimeStamps()
                         ];
@@ -432,7 +433,13 @@ class MallsController extends Controller
                 return redirect('malls/editar/' . $idmall)->withInput($post);
             }
         }
-        //pre_die($mall);
+
+        // $data = $conexion->query('select * from nombre_camaras;')->fetchAll();
+        // $nombres_camaras
+
+        $camaras = QueryBuilder('view_marketing', ['estado' => true, 'mall_id' => $idmall]);
+        // pre_die($camaras);
+
         $js_content = [
             0 => 'layouts.js.GeneralJS',
             1 => 'malls.js.MallsEditJS'
@@ -445,6 +452,7 @@ class MallsController extends Controller
             'nav_listado_malls',
             'valida_reload',
             'js_content',
+            'camaras',
             'r0_option',
             'r1_option',
             'r2_option',
@@ -584,46 +592,43 @@ class MallsController extends Controller
         return $rsp;
     }
 
-    public function ValidarBaseDatos(Request $request)
+    public function validarBaseDatos(Request $request, $omite = false)
     {
-        $post = $request->all();
-        $requiredFields = ['host', 'port', 'user', 'name', 'password'];
-        $post = $post['data'];
-        foreach ($requiredFields as $field) {
-            if (!isset($post[$field]) || empty($post[$field])) {
-                return response()->json(['error' => 'Falta el campo ' . $field], 400);
-            }
-        }
-        // Intentar conectar a la base de datos con las credenciales proporcionadas
-
         try {
+            $post = $request->all();
+            $requiredFields = ['host', 'port', 'user', 'name', 'password'];
+
+            if (!$omite && isset($post['data'])) {
+                $post = $post['data'];
+            }
+
+            foreach ($requiredFields as $field) {
+                if (!isset($post[$field]) || empty($post[$field])) {
+                    return response()->json(['error' => 'Falta el campo ' . $field], 400);
+                }
+            }
+
             $data = [
                 'driver' => 'mysql',
-                'host' => $post['host'],
-                'port' => $post['port'],
-                'database' => $post['name'],
-                'username' => $post['user'],
-                'password' => $post['password'],
+                'host' => trim($post['host']),
+                'port' => trim($post['port']),
+                'database' => trim($post['name']),
+                'username' => trim($post['user']),
+                'password' => trim($post['password']),
             ];
 
-            // $conexion = new MySqlConnection($data);
-            // $datosConexion = $request->all();
-
-            // Crear una nueva conexión a la base de datos utilizando PDO
-            $conexion = new \PDO(
-                'mysql:host=' . $data['host'] . ';port=' . $data['port'] . ';dbname=' . $data['database'],
-                $data['username'],
-                $data['password']
-            );
-            $data = $conexion->query('select * from nombre_camaras;')->fetchAll();
-
-
-
-            // Si la conexión tiene éxito, devuelve una respuesta exitosa
-            return response()->json(['tipo' => 'success', 'msg' => 'Conexión a Base de Datos establecida con éxito.', 'data' => $data ? $data : []]);
-        } catch (\Exception $e) {
-            // Si la conexión falla, devuelve un error
+            $nombre_camaras = GetDataApi('obtener-nombre-camaras', '', '', 'POST', json_encode($data));
+            // pre_die($nombre_camaras);
+            if (!empty($nombre_camaras)) {
+                $nombre_camaras = $nombre_camaras->camaras;
+                return response()->json(['tipo' => 'success', 'msg' => 'Conexión a Base de Datos establecida con éxito.', 'data' => $nombre_camaras ?: []]);
+            } else {
+                return response()->json(['tipo' => 'error', 'msg' => 'Error al conectar a la base de datos: ' . $nombre_camaras], 500);
+            }
+        } catch (\PDOException $e) {
             return response()->json(['tipo' => 'error', 'msg' => 'Error al conectar a la base de datos: ' . $e->getMessage()], 500);
+        } catch (\Throwable $e) {
+            return response()->json(['tipo' => 'error', 'msg' => 'Error inesperado: ' . $e->getMessage()], 500);
         }
     }
 }

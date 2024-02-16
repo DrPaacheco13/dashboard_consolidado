@@ -21,12 +21,10 @@ class VehiculosController extends Controller
         $VehiculosModel = new VehiculosModel();
         $view_vehicle = GetRowByWhere('view_vehicle', ['mall_id' => $idmall]);  
         if($view_vehicle->mostrar_flujo_personas){
-            $salidasVehiculos = GetDataApi('salidas-vehiculos', $idmall, "personas");
+            $salidasVehiculos = GetDataApi('salidas-vehiculos', $idmall, ", personas");
             // $salidasVehiculos = $VehiculosModel->salidasVehiculosTendencia();
         }else{
-            $salidasVehiculos = GetDataApi('salidas-vehiculos', $idmall, 'totalexit');
-            // $salidasVehiculos = GetDataApi('rango-etario-ayer', $idmall);
-            // $salidasVehiculos = $VehiculosModel->salidasVehiculos();
+            $salidasVehiculos = GetDataApi('salidas-vehiculos', $idmall, ', totalexit');
         }
         // pre_die($salidasVehiculos);
         // $patenteVehiculos = $VehiculosModel->patenteVehiculos();

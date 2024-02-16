@@ -8,7 +8,7 @@
         $('#btn_validar_db').click(function() {
             let db_host = $('#db_host').val();
             let db_port = $('#db_port').val();
-            let db_user = $('#db_user').val();
+            let db_user = $('#db_user').val()
             let db_name = $('#db_name').val();
             let db_password = $('#db_password').val();
 
@@ -20,7 +20,7 @@
 
             if (db_host_valida == 1 && db_port_valida == 1 && db_user_valida == 1 &&
                 db_name_valida == 1 && db_password_valida == 1) {
-                cargando('Espere por favor')
+                // cargando('Espere por favor')
                 $('#db_host').prop('disabled', true);
                 $('#db_port').prop('disabled', true);
                 $('#db_user').prop('disabled', true);
@@ -43,10 +43,13 @@
                         $('#btn_modificar_db').show();
                         QuitarEstilosDB()
                         console.log(data);
-                        $('#col_alerta_mkt').remove();
+                        $('#col_alerta_mkt').hide();
+                        $('#row_camaras').show();
                         Swal.close();
                         data = data.data;
-                        GenerarRowCamera(data)
+                        // GenerarRowCamera(data)
+                        toastr.success('Base de datos conectada con éxito!', 'Gestión de Malls');
+
                     })
                     .catch(function(error) {
                         console.log(error);
@@ -204,8 +207,10 @@
 
 
             if (alMenosUnAccesoSeleccionado &&
-                nombre_mall_val == 1 && descripcion_mall_val == 1 && distribucion_mall_val == 1 && db_host == 1 &&
-                db_port == 1 && db_user == 1 && db_name == 1 && db_password == 1 && validarNombre == 1) {
+                nombre_mall_val == 1 && descripcion_mall_val == 1 && distribucion_mall_val == 1 &&
+                db_host == 1 &&
+                db_port == 1 && db_user == 1 && db_name == 1 && db_password == 1 && validarNombre == 1
+            ) {
                 //Agregar DB y si está seleccionado acceso_r0, solicitar acceso_r0_ como obligatorio (Para todas las reg)
                 HabilitarCamposDB();
                 $('#formulario').submit();
@@ -258,15 +263,15 @@
     }
 
     function GenerarRowCamera(data) {
-    // Primero, asegúrate de definir rsp como una cadena vacía para concatenar tu HTML
-    let rsp = '';
+        // Primero, asegúrate de definir rsp como una cadena vacía para concatenar tu HTML
+        let rsp = '';
 
-    // Luego, elimina el elemento con el id 'row_data' antes de agregar uno nuevo
-    $('#row_data').remove();
+        // Luego, elimina el elemento con el id 'row_data' antes de agregar uno nuevo
+        $('#row_data').remove();
 
-    // Ahora comienza a construir tu HTML dentro de rsp
-    rsp += `
-    <div class="row" id="row_data">
+        // Ahora comienza a construir tu HTML dentro de rsp
+        rsp += `
+            <div class="row" id="row_data">
         <div class="col-12">
             <table class="table table-hover">
                 <thead>
@@ -278,9 +283,9 @@
                 </thead>
                 <tbody>`;
 
-    // Itera sobre los datos para generar las filas de la tabla
-    data.forEach(element => {
-        rsp += `
+        // Itera sobre los datos para generar las filas de la tabla
+        data.forEach(element => {
+            rsp += `
             <tr>
                 <td class="text-center">${element.camaraindexcode}</td>
                 <td class="text-center">
@@ -296,19 +301,34 @@
                     </select>    
                 </td>
             </tr>`;
-    });
+        });
 
-    rsp += `
+        rsp += `
             </tbody>
             </table>
         </div>
-    </div>`;
+            </div>`;
 
-    // Después de construir el HTML, agrega rsp al contenedor con el id 'row_camaras_marketing'
-    $('#row_camaras_marketing').html(rsp);
+        // Después de construir el HTML, agrega rsp al contenedor con el id 'row_camaras_marketing'
+        $('#row_camaras_marketing').html(rsp);
 
-    // Finalmente, devuelve rsp (aunque actualmente no parece necesario)
-    return rsp;
-}
+        // Finalmente, devuelve rsp (aunque actualmente no parece necesario)
+        return rsp;
+    }
 
+    function AgregarInputsCamara() {
+        let count_rows = document.querySelectorAll('#col_camaras .row').length;
+
+        let html = `
+        <div class="row d-flex justify-content-center pb-3">
+            <div class="col-md-3">
+                <input type="text" id="marketing_id_${count_rows}" name="camaras[${count_rows}][marketing_id]" placeholder="Ingrese ID de cámara" class="form-control">
+            </div>
+            <div class="col-md-7">
+                <input type="text" id="nombre_camara_${count_rows}" name="camaras[${count_rows}][nombre_camara]" placeholder="Ingrese Nombre de cámara" class="form-control">
+            </div>
+        </div>`;
+
+        document.getElementById('col_camaras').insertAdjacentHTML('beforeend',html);
+    }
 </script>

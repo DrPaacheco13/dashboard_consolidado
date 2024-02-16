@@ -65,14 +65,15 @@ def conectar_a_base_de_datos_local():
     return conexion
 
 
-def ejecutar_consulta(query, data=None, mall_id=None, local=None):
-    conexion = None
+def ejecutar_consulta(query, data=None, mall_id=None, local=None, conexion = None):
+    
     try:
-        if local is not None:
-            conexion = conectar_a_base_de_datos_local()
-        else:
-            conexion = conectar_a_base_de_datos(mall_id)
-
+        if conexion is None:
+            if local is not None:
+                conexion = conectar_a_base_de_datos_local()
+            else:
+                conexion = conectar_a_base_de_datos(mall_id)
+        
         if conexion:
             with conexion.cursor(dictionary=True) as cursor:
                 if data is not None:
@@ -766,7 +767,7 @@ def get_datos_anuales_vehiculos(mall_id):
 
 def get_salidas_vehiculos(mall_id, select):
     try:
-        query = 'SELECT totalenter, TIME_FORMAT(time, "%H:%i") as tiempo, TIME_FORMAT(estadia, "%H:%i:%s") AS estadia, ' + \
+        query = 'SELECT totalenter, TIME_FORMAT(time, "%H:%i") as tiempo, TIME_FORMAT(estadia, "%H:%i:%s") AS estadia ' + \
             select + ' FROM vehiculos_total_dia'
         data = ejecutar_consulta(query, mall_id=mall_id)
         return data if data else {}
@@ -1177,6 +1178,70 @@ def get_administracion_gerente(distribucion_id):
     except Exception as e:
         print(f"Error en obtención de malls: {str(e)}")
         return str(e)
+    
+def get_resumen_malls(distribucion_id):
+    try:
+        datos_malls = {}
+        
+        malls = get_malls_x_distribucion(distribucion_id)
+        for mall in malls:
+            datos_push = {'mall': mall}
+            
+            if mall['acceso_vehicle']:
+                data_vehiculos = get_salidas_vehiculos(mall_id=mall['id'], select='')
+                if data_vehiculos is not None:
+                    datos_push['aforo_actual_vehiculos'] = data_vehiculos[0]["totalenter"]
+
+            datos_push['aforo_actual_personas'] = 0 
+            for acceso_tipo in ['r0', 'r1', 'r2', 'r3']:
+                acceso_actual = f"get_aforo_hoy_{acceso_tipo}"
+                if mall[f'acceso_{acceso_tipo}']:
+                    aforo_actual = globals()[acceso_actual](mall['id'])
+                    if aforo_actual:
+                        datos_push['aforo_actual_personas'] += aforo_actual[0]["Entradas"]
+            rango_etario = get_rango_etario_hoy(mall["id"])
+            if rango_etario is not None:
+                total_hombres = 0
+                total_mujeres = 0
+                for rango in rango_etario:
+                    total_hombres += rango["hombres"] 
+                    total_mujeres += rango["mujeres"] 
+                porcentaje_hombres = total_hombres / len(rango_etario)
+                porcentaje_mujeres = total_mujeres / len(rango_etario)
+                datos_push['total_hombres'] = porcentaje_hombres
+                datos_push['total_mujeres'] = porcentaje_mujeres
+            datos_malls[mall['id']] = datos_push
+        
+        return datos_malls
+    except Exception as e:
+        return str(e)
+
+def get_camaras(data_post):
+    try:
+        # Establecer la conexión a la base de datos MySQL
+        conexion = mysql.connector.connect(
+            user=data_post['username'],
+            password=data_post['password'],
+            host=data_post['host'],
+            port=data_post['port'],
+            database=data_post['database']
+        )
+        
+        # Verificar si la conexión fue exitosa
+        if conexion.is_connected():
+            print("Conexión exitosa a la base de datos MySQL")
+
+            # nombre_camaras = ejecutar_consulta('SELECT * FROM nombre_camaras;', conexion=conexion)
+            conexion.close()  # Cerrar la conexión
+            return True
+        else:
+            print("Error: No se pudo conectar a la base de datos MySQL")
+            return False
+            
+    except mysql.connector.Error as e:
+        print(f"Error en obtención de cámaras: {str(e)}")
+        return False
+
 
 def get_region1_data(mall_id):
 
@@ -1350,6 +1415,11 @@ def get_datos_administacion_gerente(distribucion_id):
     }
     return results
 
+def get_nombre_camaras(data_post):
+    results = {
+        'camaras': get_camaras(data_post)
+    }
+    return results
 
 @app.route('/api/region1/<int:mall_id>', methods=['GET'])
 def region1(mall_id):
@@ -1433,7 +1503,17 @@ def pdf_r3(mall_id, fecha_inicial, fecha_final):
 def administracion_gerente(distribucion_id):
     response = jsonify(get_datos_administacion_gerente(distribucion_id))
     return response
+@app.route('/api/resumen-malls/<int:distribucion_id>', methods=['GET'])
+def resumen_malls(distribucion_id):
+    response = jsonify(get_resumen_malls(distribucion_id))
+    return response
 
+
+@app.route('/api/obtener-nombre-camaras', methods=['POST'])
+def obtener_nombre_camaras():
+    data_post = request.json
+    response = jsonify(get_nombre_camaras(data_post))
+    return response
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001, debug=True)

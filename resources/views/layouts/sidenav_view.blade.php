@@ -43,6 +43,15 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('gerentes/resumen') }}"
+                            class="nav-link {{ !empty($resumen) ? 'active' : '' }}">
+                            <i class="fas fa-universal-access"></i>
+                            <p>
+                                Resumen
+                            </p>
+                        </a>
+                    </li>
                 @else
                     @if ($mall->acceso_r0 == 1)
                         <li class="nav-item">

@@ -213,7 +213,27 @@
                                                                         Agrega una Base de Datos para cargar las cámaras de
                                                                         Marketing.
                                                                     </div>
+
+
                                                                 </div>
+
+                                                                <div class="row" style="display: none" id="row_camaras">
+                                                                    <div class="col-md-12 text-right">
+                                                                        <button id="btn_agregar_camara" onclick="AgregarInputsCamara()" type="button" class="btn btn-info text-white"><i class="fas fa-plus-circle text-white"></i> Agregar Cámara</button>
+                                                                    </div>
+                                                                    <div class="col-md-12" id="col_camaras">
+                                                                        <br>
+                                                                        <div class="row d-flex justify-content-center pb-3">
+                                                                            <div class="col-md-3">
+                                                                                <input type="text" id="marketing_id_1" name="camaras[0][marketing_id]" placeholder="Ingrese ID de cámara" class="form-control text-center">
+                                                                            </div>
+                                                                            <div class="col-md-7">
+                                                                                <input type="text" id="nombre_camara_1" name="camaras[0][nombre_camara]" placeholder="Ingrese Nombre de cámara" class="form-control">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
                                                             </div>
                                                         </div>
                                                     </div>

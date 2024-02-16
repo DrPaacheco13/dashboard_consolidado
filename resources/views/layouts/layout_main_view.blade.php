@@ -31,6 +31,8 @@
 
     {{-- <link href="{{ asset('css/adminlte.min.css') }}" rel='stylesheet'> --}}
     {{-- <link href="{{ asset('dist/css/adminlte.min.css') }}" rel='stylesheet'> --}}
+    {{-- <link href="{{ asset('css/adminlte.min.css') }}" rel='stylesheet'> --}}
+    <link href="{{ asset('css/tab-style.css') }}" rel='stylesheet'>
 
     @vite([
         'resources/sass/app.scss',
@@ -86,6 +88,7 @@
             background-color: #354A5F !important;
             color: #fff !important;
         }
+
         [class*=sidebar-dark-] {
             background-color: #34495E !important;
         }
@@ -106,6 +109,7 @@
             </div>
             @include('layouts.footer')
         @endauth
+        @yield('content_mant')
 
         @if (empty($valida_reload))
             <script>

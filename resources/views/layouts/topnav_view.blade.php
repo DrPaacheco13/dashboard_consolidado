@@ -20,6 +20,9 @@
             <li class="nav-item">
                 <a class="nav-link text-white" href="{{ route('gerentes/administracion') }}">Administración</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="{{ route('gerentes/resumen') }}">Resumen</a>
+            </li>
         @else
             @if ($mall->acceso_r0 == 1)
                 <li class="nav-item">

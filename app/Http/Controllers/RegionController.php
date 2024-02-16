@@ -55,7 +55,7 @@ class RegionController extends Controller
 
         $datosAnioAnt = [];
         $meses = obtenerMesesDelAnio();
-        
+        // pre_die($region1);
         foreach ($meses as $mes) {
             $encontrado = false; // Bandera para verificar si se encontró el mes
             foreach ($datosAnualesAnt as $dato) {
@@ -69,9 +69,9 @@ class RegionController extends Controller
                 $datosAnioAnt[] = []; // Si no se encontró el mes, agregar un array vacío
             }
         }
-        $datosAnualesAnt = $datosAnioAnt; 
+        $datosAnualesAnt = $datosAnioAnt;
         // pre_die($datosAnioAnt);
-        
+
 
         // pre_die($datosAnualesAnt);
 
@@ -138,7 +138,7 @@ class RegionController extends Controller
 
         $datosAnioAnt = [];
         $meses = obtenerMesesDelAnio();
-        
+
         foreach ($meses as $mes) {
             $encontrado = false; // Bandera para verificar si se encontró el mes
             foreach ($datosAnualesAnt as $dato) {
@@ -152,7 +152,7 @@ class RegionController extends Controller
                 $datosAnioAnt[] = []; // Si no se encontró el mes, agregar un array vacío
             }
         }
-        $datosAnualesAnt = $datosAnioAnt; 
+        $datosAnualesAnt = $datosAnioAnt;
         // pre_die($datosMensualesAnt);
         $data = [
             'nav_acceso_r2' => $nav_acceso_r2,
@@ -223,7 +223,7 @@ class RegionController extends Controller
 
         $datosAnioAnt = [];
         $meses = obtenerMesesDelAnio();
-        
+
         foreach ($meses as $mes) {
             $encontrado = false; // Bandera para verificar si se encontró el mes
             foreach ($datosAnualesAnt as $dato) {
@@ -237,7 +237,7 @@ class RegionController extends Controller
                 $datosAnioAnt[] = []; // Si no se encontró el mes, agregar un array vacío
             }
         }
-        $datosAnualesAnt = $datosAnioAnt; 
+        $datosAnualesAnt = $datosAnioAnt;
 
         return view('layouts.regiones.region_r3_view', compact(
             'nav_acceso_r3',
@@ -308,7 +308,7 @@ class RegionController extends Controller
 
         $datosAnioAnt = [];
         $meses = obtenerMesesDelAnio();
-        
+
         foreach ($meses as $mes) {
             $encontrado = false; // Bandera para verificar si se encontró el mes
             foreach ($datosAnualesAnt as $dato) {
@@ -322,7 +322,7 @@ class RegionController extends Controller
                 $datosAnioAnt[] = []; // Si no se encontró el mes, agregar un array vacío
             }
         }
-        $datosAnualesAnt = $datosAnioAnt; 
+        $datosAnualesAnt = $datosAnioAnt;
 
         return view('layouts.regiones.region_r0_view', compact(
             'nav_acceso_r0',

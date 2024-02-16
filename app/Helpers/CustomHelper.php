@@ -329,36 +329,47 @@ function ordenarHoraSegundoHumano($hora24)
     return $horaHumano;
 }
 
-function GetDataApi($endpoint = 'getAforoHoyR0', $mall_id = null, $select = null)
+function GetDataApi($endpoint = 'getAforoHoyR0', $mall_id = null, $select = null, $method = 'GET', $postData = [])
 {
     $response = [];
-    if (!empty($mall_id) && $mall_id > 0) {
-        $curl = curl_init();
-        // $url = "http://34.176.139.209/api/$endpoint/$mall_id";
-        $url = "http://127.0.0.1:5001/api/$endpoint/$mall_id";
+    $curl = curl_init();
+    $url = "http://127.0.0.1:5001/api/$endpoint";
 
-        if (!empty($select)) {
-            $url .= "/$select";
-        }
-        // pre_die($url);
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
+    if (!empty($mall_id)) {
+        $url .= "/$mall_id";
     }
-    // pre_die($response);
+    if (!empty($select)) {
+        $url .= "/$select";
+    }
+    // pre_die($postData);
+    $opt = [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => $method,
+    ];
+    if ($method == 'POST') {
+        $opt[CURLOPT_HTTPHEADER] = array(
+            'Content-Type: application/json'
+        );
+    }
+    curl_setopt_array($curl, $opt);
+
+    if ($method === 'POST') {
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+    }
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+
     return json_decode($response);
 }
+
 
 function ApiAP($file)
 {

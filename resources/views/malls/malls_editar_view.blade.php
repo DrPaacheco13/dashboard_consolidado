@@ -157,6 +157,87 @@
                                             <div class="card-header">
                                                 <h4 class="card-title w-100">
                                                     <a class="d-block w-100" style="text-decoration: none"
+                                                        data-toggle="collapse" href="#collapseCamarasMarketing">
+                                                        Configuración Camaras Maketing
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseCamarasMarketing" class="collapse" data-parent="#accordion">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-md-1"></div>
+                                                        <div class="col-md-10">
+                                                            <div class="row" id="row_camaras_marketing">
+                                                                {{-- <div class="col-12" id="col_alerta_mkt">
+                                                                    <div
+                                                                        class="alert alert-warning alert-dismissible text-center">
+                                                                        <h5>
+                                                                            <i
+                                                                                class="icon fas fa-exclamation-triangle"></i>
+                                                                            Alerta!
+                                                                        </h5>
+                                                                        Agrega una Base de Datos para cargar las cámaras de
+                                                                        Marketing.
+                                                                    </div>
+
+
+                                                                </div> --}}
+
+                                                                <div class="row"
+                                                                    id="row_camaras">
+                                                                    <div class="col-md-12 text-right">
+                                                                        <button id="btn_agregar_camara"
+                                                                            onclick="AgregarInputsCamara()" type="button"
+                                                                            class="btn btn-info text-white"><i
+                                                                                class="fas fa-plus-circle text-white"></i>
+                                                                            Agregar Cámara</button>
+                                                                    </div>
+                                                                    <div class="col-md-12" id="col_camaras">
+
+                                                                        <br>
+                                                                        <div class="row d-flex justify-content-center">
+                                                                            <div class="col-md-3">
+                                                                                <label for="">ID Cámara Marketing</label>
+                                                                            </div>
+                                                                            <div class="col-md-7">
+                                                                                <label for="">Nombre Cámara</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        @if (!empty($camaras))
+                                                                            @foreach ($camaras as $key => $camara)
+                                                                                <div
+                                                                                    class="row d-flex justify-content-center pb-3">
+                                                                                    <div class="col-md-3">
+                                                                                        <input type="text"
+                                                                                            id="marketing_id_{{ $key }}"
+                                                                                            name="marketing_id_{{ $key }}"
+                                                                                            placeholder="Ingrese ID de cámara"
+                                                                                            class="form-control text-center" value="{{ $camara->entrada_marketing_id }}">
+                                                                                    </div>
+                                                                                    <div class="col-md-7">
+                                                                                        <input type="text"
+                                                                                            id="nombre_camara_{{ $key }}"
+                                                                                            name="nombre_camara_{{ $key }}"
+                                                                                            placeholder="Ingrese Nombre de cámara"
+                                                                                            class="form-control" value="{{ $camara->titulo_entrada }}">
+                                                                                    </div>
+                                                                                </div>
+                                                                            @endforeach
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card card-primary">
+                                            <div class="card-header">
+                                                <h4 class="card-title w-100">
+                                                    <a class="d-block w-100" style="text-decoration: none"
                                                         data-toggle="collapse" href="#collapseR0">
                                                         Configuración Región 0
                                                     </a>

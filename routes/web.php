@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/login');
 
 Auth::routes();
+Route::get('/mantenimiento', [App\Http\Controllers\MantenimientoController::class, 'index'])->name('mantenimiento');
 Route::get('/logoutSession', [App\Http\Controllers\HomeController::class, 'logout'])->name('logoutSession')->middleware('auth');
 ################################### RUTAS REGIONES R #############################################################
 Route::get('/acceso/R0/{url}', [App\Http\Controllers\RegionController::class, 'AccesoRegionR0'])->name('acceso.r0')->middleware('auth');
@@ -77,6 +78,9 @@ Route::post('/marketing_historico', [App\Http\Controllers\MarketingController::c
 Route::get('gerentes/administracion', [App\Http\Controllers\GerenteController::class, 'index'])->name('gerentes/administracion')->middleware('auth');
 Route::get('redirect-mall/{id}', [App\Http\Controllers\GerenteController::class, 'RedirectMall'])->name('redirect/mall')->middleware('auth');
 Route::get('gerentes/retorna/{distribucion_id}/{user_id_reference}', [App\Http\Controllers\GerenteController::class, 'GerenteRetorna'])->name('gerentes/retorna')->middleware('auth');
+Route::get('gerentes/resumen', [App\Http\Controllers\GerenteController::class, 'ResumenMalls'])->name('gerentes/resumen')->middleware('auth');
+Route::get('gerentes/ver-mall/{mall_id}', [App\Http\Controllers\GerenteController::class, 'VerMall'])->name('gerentes/ver-mall')->middleware('auth');
+
 Route::get('mi-perfil', [App\Http\Controllers\PerfilController::class, 'index'])->name('miperfil')->middleware('auth');
 Route::post('mi-perfil', [App\Http\Controllers\PerfilController::class, 'index'])->name('miperfil.post')->middleware('auth');
 

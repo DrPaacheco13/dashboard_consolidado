@@ -23,6 +23,7 @@ class GerentesModel extends Model
         }
     }
 
+
     function setTable($tableName)
     {
         $this->table = $tableName;
