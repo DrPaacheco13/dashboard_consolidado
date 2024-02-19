@@ -2,7 +2,6 @@
 
 @section('content_mant')
     <br>
-    <br>
     <div class="container card card-body">
         <div class="col-md-12 d-flex justify-content-center text-center">
             <h3>Lamentamos los inconvenientes. Estamos realizando labores de mantenimiento en nuestro sitio para mejorar tu

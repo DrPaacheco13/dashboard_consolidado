@@ -32,7 +32,7 @@
     {{-- <link href="{{ asset('css/adminlte.min.css') }}" rel='stylesheet'> --}}
     {{-- <link href="{{ asset('dist/css/adminlte.min.css') }}" rel='stylesheet'> --}}
     {{-- <link href="{{ asset('css/adminlte.min.css') }}" rel='stylesheet'> --}}
-    <link href="{{ asset('css/tab-style.css') }}" rel='stylesheet'>
+    {{-- <link href="{{ asset('css/tab-style.css') }}" rel='stylesheet'> --}}
 
     @vite([
         'resources/sass/app.scss',
