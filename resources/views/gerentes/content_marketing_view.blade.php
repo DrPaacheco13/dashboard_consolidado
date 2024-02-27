@@ -1,7 +1,8 @@
 @if (!empty($rangoEtario))
     <div class="container">
         @foreach ($rangoEtario as $entrada)
-            <div class="row d-flex justify-content-center">
+            <div class="card card-body">
+                {{-- <div class="row d-flex justify-content-center">
                 <div class="col-md-4">
                     <div class="info-box mb-3">
                         <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-clock"></i></span>
@@ -20,144 +21,127 @@
                     </h1>
                     <br>
                 </header>
+                
+            </div> --}}
+                <div class="row">
+                    <div class="col-12">
 
-            </div>
-            <div class="row">
-                <div class=" col-md-6 card mt-1">
-                    <figure class="highcharts-figure">
-                        <div id="chartGenero_{{ $entrada->id }}"></div>
-                    </figure>
-                    <div class="col-md-12">
-                        <div class="" style="">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h3 style="text-align: left; text-decoration: underline">Visitantes</h3>
-                                    </div>
-                                </div>
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                Ítem
-                                            </th>
-                                            <th>
-                                                Porcentaje
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                Hombres
-                                            </td>
-                                            <td>
-                                                {{ !empty($entrada->hombres) ? formatear_miles_coma($entrada->hombres) : 'Sin Información' }}%
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Mujeres
-                                            </td>
-                                            <td>
-                                                {{ !empty($entrada->mujeres) ? formatear_miles_coma($entrada->mujeres) : 'Sin Información' }}%
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <h3 class="text-center">
+                            {{ !empty($entrada->titulo_entrada) ? $entrada->titulo_entrada : 'Sin Asignar' }}
+                        </h3>
+                    </div>
+                    <div class="col-md-6">
+                        <figure class="highcharts-figure">
+                            <div id="chartGenero_{{ $entrada->id }}"></div>
+                        </figure>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">VISITANTES</th>
+                                    {{-- <th>CANTIDAD</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Hombres</td>
+                                    <td class="text-right">
+                                        {{ !empty($entrada->hombres) ? formatear_miles_coma($entrada->hombres) : 'Sin Información' }}%
+                                    </td>
+                                    <!-- Aquí debes reemplazar $cantidad_hombres con la variable que contiene la cantidad de visitantes hombres -->
+                                </tr>
+                                <tr>
+                                    <td>Mujeres</td>
+                                    <td class="text-right">
+                                        {{ !empty($entrada->mujeres) ? formatear_miles_coma($entrada->mujeres) : 'Sin Información' }}%
+                                    </td>
+                                    <!-- Aquí debes reemplazar $cantidad_mujeres con la variable que contiene la cantidad de visitantes mujeres -->
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card mt-1">
+                <div class="row">
+                    <div class="col-md-6">
                         <figure class="highcharts-figure">
                             <div id="chartRango_{{ $entrada->id }}"></div>
                         </figure>
-                        <div class="col-md-12">
-                            <div class="">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h3 style="text-align: left; text-decoration: underline">Rango de Edad</h3>
-                                        </div>
-                                    </div>
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    Ítem
-                                                </th>
-                                                <th>
-                                                    Rango
-                                                </th>
-                                                <th>
-                                                    Porcentaje
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    Niños
-                                                </td>
-                                                <td>
-                                                    0 - 11
-                                                </td>
-                                                <td>
-                                                    {{ !empty($entrada->nino) ? formatear_miles_coma($entrada->nino) . '%' : 'Sin Información' }}
-                                                </td>
-                                            </tr>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" colspan="2">
+                                        RANGOS DE EDAD
+                                    </th>
+                                    {{-- <th>
+                                    Rango
+                                </th>
+                                <th>
+                                    Porcentaje
+                                </th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Niños
+                                    </td>
+                                    {{-- <td>
+                                    0 - 11
+                                </td> --}}
+                                    <td class="text-right">
+                                        {{ !empty($entrada->nino) ? formatear_miles_coma($entrada->nino) . '%' : 'Sin Información' }}
+                                    </td>
+                                </tr>
 
-                                            <tr>
-                                                <td>
-                                                    Adolecentes
-                                                </td>
-                                                <td>
-                                                    12 - 18
-                                                </td>
-                                                <td>
-                                                    {{ !empty($entrada->adolescente) ? formatear_miles_coma($entrada->adolescente) . '%' : 'Sin Información' }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Joven
-                                                </td>
-                                                <td>
-                                                    19 - 26
-                                                </td>
-                                                <td>
-                                                    {{ !empty($entrada->joven) ? formatear_miles_coma($entrada->joven) . '%' : 'Sin Información' }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Adulto
-                                                </td>
-                                                <td>
-                                                    27 - 59
-                                                </td>
-                                                <td>
-                                                    {{ !empty($entrada->adulto) ? formatear_miles_coma($entrada->adulto) . '%' : 'Sin Información' }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Adulto Mayor
-                                                </td>
-                                                <td>
-                                                    60 +
-                                                </td>
-                                                <td>
-                                                    {{ !empty($entrada->anciano) ? formatear_miles_coma($entrada->anciano) . '%' : 'Sin Información' }}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                                <tr class="text-center">
+                                    <td>
+                                        Adolecentes
+                                    </td>
+                                    {{-- <td>
+                                    12 - 18
+                                </td> --}}
+                                    <td class="text-right">
+                                        {{ !empty($entrada->adolescente) ? formatear_miles_coma($entrada->adolescente) . '%' : 'Sin Información' }}
+                                    </td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td>
+                                        Joven
+                                    </td>
+                                    {{-- <td>
+                                    19 - 26
+                                </td> --}}
+                                    <td class="text-right">
+                                        {{ !empty($entrada->joven) ? formatear_miles_coma($entrada->joven) . '%' : 'Sin Información' }}
+                                    </td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td>
+                                        Adulto
+                                    </td>
+                                    {{-- <td>
+                                    27 - 59
+                                </td> --}}
+                                    <td class="text-right">
+                                        {{ !empty($entrada->adulto) ? formatear_miles_coma($entrada->adulto) . '%' : 'Sin Información' }}
+                                    </td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td>
+                                        Adulto Mayor
+                                    </td>
+                                    {{-- <td>
+                                    60 +
+                                </td> --}}
+                                    <td class="text-right">
+                                        {{ !empty($entrada->anciano) ? formatear_miles_coma($entrada->anciano) . '%' : 'Sin Información' }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

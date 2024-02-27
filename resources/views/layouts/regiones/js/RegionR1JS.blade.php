@@ -228,7 +228,7 @@
         xAxis: {
             categories: [
                 @foreach ($datosMensuales as $item)
-                    @if (!empty($item->tEntrada))
+                    @if (!empty($item))
                         '{{ $item->date }}',
                     @endif
                 @endforeach

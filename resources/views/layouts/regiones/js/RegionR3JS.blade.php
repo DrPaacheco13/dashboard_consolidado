@@ -189,29 +189,41 @@
             enabled: false
         },
         series: [{
-            name: 'Cantidad Personas Columnas',
-            type: 'column',
-            data: [
-                @foreach ($datosAnuales as $item)
-                    {{ $item->tEntradas }},
-                @endforeach
-            ],
+                name: 'Entradas 2024',
+                type: 'column',
+                data: [
+                    // @foreach ($datosAnuales as $item)
+                    //     {{ $item->tEntradas }},
+                    // @endforeach
+                    @if (!empty($datosAnuales))
+                        @foreach ($datosAnuales as $item)
+                            @if (!empty($item))
+                                {{ $item->tEntradas }},
+                            @else
+                                0,
+                            @endif
+                        @endforeach
+                    @endif
+                ],
 
-        }, {
-            name: 'Entrada 2023',
-            type: 'column',
-            data: [
-                @if (!empty($datosAnualesAnt))
-                    @foreach ($datosAnualesAnt as $item)
-                        @if (!empty($item))
-                            {{ $item->tEntrada }},
-                        @else
-                            0,
-                        @endif
-                    @endforeach
-                @endif
-            ]
-        }]
+            }
+
+            @if (!empty($datosAnualesAnt[0]->tEntrada))
+                , {
+                    name: 'Entradas 2023',
+                    type: 'column',
+                    data: [
+                        @foreach ($datosAnualesAnt as $item)
+                            @if (!empty($item))
+                                {{ $item->tEntrada }},
+                            @else
+                                0,
+                            @endif
+                        @endforeach
+                    ]
+                }
+            @endif
+        ]
     });
 </script>
 <script>
@@ -260,26 +272,28 @@
             enabled: false
         },
         series: [{
-            name: 'Entrada 2024',
-            data: [
-                @foreach ($datosMensuales as $item)
-                    {{ $item->tEntrada }},
-                @endforeach
-            ]
-        }, {
-            name: 'Entrada 2023',
-            data: [
-                @if (!empty($datosMensualesAnt))
-                    @foreach ($datosMensualesAnt as $item)
-                        @if (!empty($item))
-                            {{ $item->tEntrada }},
-                        @else
-                            0,
-                        @endif
+                name: 'Entrada 2024',
+                data: [
+                    @foreach ($datosMensuales as $item)
+                        {{ $item->tEntrada }},
                     @endforeach
-                @endif
-            ]
-        }]
+                ]
+            }
+            @if (!empty($datosMensualesAnt))
+                , {
+                    name: 'Entradas 2023',
+                    data: [
+                        @foreach ($datosMensualesAnt as $item)
+                            @if (!empty($item))
+                                {{ $item->tEntrada }},
+                            @else
+                                0,
+                            @endif
+                        @endforeach
+                    ]
+                }
+            @endif
+        ]
     });
 </script>
 
@@ -290,18 +304,31 @@
     const diasSemana = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
 
     diasSemana.forEach(dia => {
-        crearGraficoPorDia(dia, datosMesActual);
-        crearGraficoPorDia(dia, datosMesAnterior, 'ANT');
+        if (datosMesActual.length > 0) {
+            crearGraficoPorDia(dia, datosMesActual);
+        }
+        if (datosMesAnterior.length > 0) {
+            crearGraficoPorDia(dia, datosMesAnterior, 'ANT');
+        }
     });
 
     // Función para filtrar los datos por día de la semana
     function filtrarDatosPorDia(dia, datos) {
+        datos.forEach(ite => {
+            console.log(ite.dia);
+            // console.log("Elemento para el día", dia + ":", item.dia);
+            // Si quieres imprimir todos los datos del elemento, puedes hacerlo así:
+            // console.log("Elemento para el día", dia + ":", item);
+        });
+        console.log('dia');
+        console.log(dia);
+        console.log('dia');
         return datos.filter(item => item.dia === dia);
     }
 
     function crearGraficoPorDia(dia, data, ext = '') {
         const datosFiltrados = filtrarDatosPorDia(dia, data);
-        console.log(dia);
+        // if (datosFiltrados.length > 0) {
         let colors = obtenerColoresPorDia(dia);
         Highcharts.chart('comparativasMes' + dia + ext, {
             colors: colors,
@@ -341,6 +368,7 @@
                 data: datosFiltrados.map(item => item.entrada)
             }]
         });
+        // }
     }
 
     function obtenerColoresPorDia(dia) {

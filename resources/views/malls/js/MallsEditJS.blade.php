@@ -181,13 +181,13 @@
         let html = `
         <div class="row d-flex justify-content-center pb-3">
             <div class="col-md-3">
-                <input type="text" id="marketing_id_${count_rows}" name="marketing_id_${count_rows}" placeholder="Ingrese ID de cámara" class="form-control text-center">
+                <input type="text" id="marketing_id_${count_rows}" name="camaras[${count_rows}][marketing_id]" placeholder="Ingrese ID de cámara" class="form-control">
             </div>
             <div class="col-md-7">
-                <input type="text" id="nombre_camara_${count_rows}" name="nombre_camara_${count_rows}" placeholder="Ingrese Nombre de cámara" class="form-control">
+                <input type="text" id="nombre_camara_${count_rows}" name="camaras[${count_rows}][nombre_camara]" placeholder="Ingrese Nombre de cámara" class="form-control">
             </div>
         </div>`;
 
-        document.getElementById('col_camaras').innerHTML += html;
+        document.getElementById('col_camaras').insertAdjacentHTML('beforeend',html);
     }
 </script>

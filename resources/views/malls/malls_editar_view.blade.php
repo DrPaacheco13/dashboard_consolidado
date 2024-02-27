@@ -183,8 +183,7 @@
 
                                                                 </div> --}}
 
-                                                                <div class="row"
-                                                                    id="row_camaras">
+                                                                <div class="row" id="row_camaras">
                                                                     <div class="col-md-12 text-right">
                                                                         <button id="btn_agregar_camara"
                                                                             onclick="AgregarInputsCamara()" type="button"
@@ -197,7 +196,8 @@
                                                                         <br>
                                                                         <div class="row d-flex justify-content-center">
                                                                             <div class="col-md-3">
-                                                                                <label for="">ID Cámara Marketing</label>
+                                                                                <label for="">INDEXCODE Cámara
+                                                                                    Marketing</label>
                                                                             </div>
                                                                             <div class="col-md-7">
                                                                                 <label for="">Nombre Cámara</label>
@@ -205,21 +205,26 @@
                                                                         </div>
                                                                         @if (!empty($camaras))
                                                                             @foreach ($camaras as $key => $camara)
+                                                                                <input type="hidden"
+                                                                                    name="camaras[{{ $key }}][id_camara]"
+                                                                                    value="{{ $camara->id }}">
                                                                                 <div
                                                                                     class="row d-flex justify-content-center pb-3">
                                                                                     <div class="col-md-3">
                                                                                         <input type="text"
                                                                                             id="marketing_id_{{ $key }}"
-                                                                                            name="marketing_id_{{ $key }}"
+                                                                                            name="camaras[{{ $key }}][marketing_id]"
                                                                                             placeholder="Ingrese ID de cámara"
-                                                                                            class="form-control text-center" value="{{ $camara->entrada_marketing_id }}">
+                                                                                            class="form-control text-center"
+                                                                                            value="{{ $camara->entrada_marketing_id }}">
                                                                                     </div>
                                                                                     <div class="col-md-7">
                                                                                         <input type="text"
                                                                                             id="nombre_camara_{{ $key }}"
-                                                                                            name="nombre_camara_{{ $key }}"
+                                                                                            name="camaras[{{ $key }}][nombre_camara]"
                                                                                             placeholder="Ingrese Nombre de cámara"
-                                                                                            class="form-control" value="{{ $camara->titulo_entrada }}">
+                                                                                            class="form-control"
+                                                                                            value="{{ $camara->titulo_entrada }}">
                                                                                     </div>
                                                                                 </div>
                                                                             @endforeach

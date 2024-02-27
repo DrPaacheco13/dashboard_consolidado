@@ -4,7 +4,12 @@
     <div class="container">
         <div class="card card-body">
             <div class="row">
-                <div class="col-12 text-center">
+                <div class="col-2">
+                    <a href="{{ route('gerentes/resumen') }}" class="btn btn-info text-white" onclick="cargando()" rel="noopener noreferrer">
+                    <i class="fas fa-arrow-left"></i> Atrás
+                    </a>
+                </div>
+                <div class="col-10 text-center">
                     <h2><b>Resumen de {{ !empty($nombre_mall) ? $nombre_mall : 'Mall' }}</b></h2>
                 </div>
             </div>

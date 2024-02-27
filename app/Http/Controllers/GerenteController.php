@@ -106,8 +106,8 @@ class GerenteController extends Controller
         $idmall = auth()->user()->id_mall;
         $distribucion_id = auth()->user()->distribucion_id;
         $datos_malls = GetDataApi('resumen-malls', $distribucion_id);
-        // pre('kie');
         // pre_die($datos_malls);
+        // pre('kie');
 
         $data = [
             'resumen' => true,
@@ -132,6 +132,7 @@ class GerenteController extends Controller
 
         $accesos = ['r0', 'r1', 'r2', 'r3', 'vehicle', 'tendencia', 'marketing'];
 
+        $aforo_actual = '';
         $aforoAyer = '';
         $personasSegmentoAyer = '';
         $personasSegmentoHoy = '';
@@ -183,26 +184,29 @@ class GerenteController extends Controller
                         'eliminado' => false,
                         'mall_id' => $mall_id
                     ];
-                    //        pre_die($rangoEtario);
 
                     $marketing_structure = QueryBuilder('view_marketing', $where_ms);
+                    // pre_die($marketing_structure);
                     if (!empty($marketing_structure)) {
                         foreach ($rangoEtario as $rango) {
+                            // pre($rango);
                             foreach ($marketing_structure as $key) {
+                                // pre($key);
                                 if ($rango->id == $key->entrada_marketing_id) {
                                     $rango->titulo_entrada = $key->titulo_entrada;
                                     // pre_die($rango);
-                                }
+                                } 
                             }
                         }
                     }
+                    // pre_die($rangoEtario);
                 }
                 if ($acceso == 'r0' || $acceso == 'r1' || $acceso == 'r2' || $acceso == 'r3') {
                     $region = GetDataApi($reg, $mall_id);
                     // pre($acceso);
                     // pre($region);
                     // pre_die($region->entradas_camara_ayer_r1);
-                    $aforoHoy = !empty($region->{'aforo_hoy_' . $acceso}) ? $region->{'aforo_hoy_' . $acceso} : [];
+                    $aforo_actual = !empty($region->{'aforo_hoy_' . $acceso}) ? $region->{'aforo_hoy_' . $acceso} : [];
                     $aforoAyer = !empty($region->{'aforo_ayer_' . $acceso}) ? $region->{'aforo_ayer_' . $acceso} : [];
                     $personasSegmentoAyer = !empty($region->{'personas_segmento_ayer_' . $acceso}) ? $region->{'personas_segmento_ayer_' . $acceso} : [];
                     $personasSegmentoHoy = !empty($region->{'personas_segmento_hoy_' . $acceso}) ? $region->{'personas_segmento_hoy_' . $acceso} : [];
@@ -217,13 +221,22 @@ class GerenteController extends Controller
                     $comparativoMesAnterior = !empty($region->{'comparativo_mes_anterior_' . $acceso}) ? $region->{'comparativo_mes_anterior_' . $acceso} : [];
                 }
                 if ($acceso == 'vehicle') {
-                    $time_actualizacion = !empty($region->time_actualizacion) ? $region->time_actualizacion : [];
-                    $aforo_hoy_grafico = !empty($region->aforo_hoy_grafico) ? $region->aforo_hoy_grafico : [];
-                    $aforo_ayer = !empty($region->aforo_ayer) ? $region->aforo_ayer : [];
-                    $aforo_ayer_grafico = !empty($region->aforo_ayer_grafico) ? $region->aforo_ayer_grafico : [];
-                    $camara_sector_anterior = !empty($region->camara_sector_anterior) ? $region->camara_sector_anterior : [];
-                    $datos_anuales = !empty($region->datos_anuales) ? $region->datos_anuales : [];
-                    $datos_mensuales = !empty($region->datos_mensuales) ? $region->datos_mensuales : [];
+                    $reg = "get-aforo/$acceso/$mall_id";
+                    $region_vehicle = GetDataApi($reg);
+                    $region_vehicle = $region_vehicle->data;
+                    // pre($reg);
+                    // $time_actualizacion = !empty($region->time_actualizacion) ? $region->time_actualizacion : [];
+                    $aforo_hoy_grafico = !empty($region_vehicle->aforo_segmentado) ? $region_vehicle->aforo_segmentado : [];
+                    $aforo_actual = !empty($region_vehicle->aforo_actual) ? $region_vehicle->aforo_actual : [];
+                    // pre_die($aforo_actual);
+                    // pre($region_vehicle);
+                    // pre_die($aforo_hoy_grafico);
+
+                    // $aforo_ayer = !empty($region->aforo_ayer) ? $region->aforo_ayer : [];
+                    // $aforo_ayer_grafico = !empty($region->aforo_ayer_grafico) ? $region->aforo_ayer_grafico : [];
+                    // $camara_sector_anterior = !empty($region->camara_sector_anterior) ? $region->camara_sector_anterior : [];
+                    // $datos_anuales = !empty($region->datos_anuales) ? $region->datos_anuales : [];
+                    // $datos_mensuales = !empty($region->datos_mensuales) ? $region->datos_mensuales : [];
                 }
 
 
@@ -233,14 +246,17 @@ class GerenteController extends Controller
                 // pre($acceso);
                 foreach ($meses as $mes) {
                     $encontrado = false; // Bandera para verificar si se encontró el mes
-                    foreach ($datosAnualesAnt as $dato) {
-                        if (!empty($dato)) {
+                    if (!empty($datosAnualesAnt)) {
+                        # code...
+                        foreach ($datosAnualesAnt as $dato) {
+                            if (!empty($dato)) {
 
-                            if (StrUpper($mes) == StrUpper($dato->mes)) {
-                                // pre($dato->mes);
-                                $datosAnioAnt[] = $dato;
-                                $encontrado = true;
-                                break; // Terminar el bucle una vez que se haya encontrado el mes
+                                if (StrUpper($mes) == StrUpper($dato->mes)) {
+                                    // pre($dato->mes);
+                                    $datosAnioAnt[] = $dato;
+                                    $encontrado = true;
+                                    break; // Terminar el bucle una vez que se haya encontrado el mes
+                                }
                             }
                         }
                     }
@@ -277,10 +293,10 @@ class GerenteController extends Controller
                     'datos_mensuales' => $datos_mensuales,
                     'mesActual' => $mesActual,
                     'rangoEtario' => $rangoEtario,
+                    'aforo_actual' => $aforo_actual,
                     // 'aforo_ayer' => $aforoAyer,
 
                 ];
-                // pre_die($data_region);
 
 
                 $accesos_habilitados['data_acceso_' . $acceso] = $data_region;
@@ -292,6 +308,7 @@ class GerenteController extends Controller
                         $accesos_habilitados[$acceso] = 'TENDENCIA';
                         break;
                     case 'marketing':
+                        // pre_die($data_region);
                         $accesos_habilitados[$acceso] = 'MARKETING';
                         break;
                     default:
@@ -299,9 +316,10 @@ class GerenteController extends Controller
                 }
             }
         }
+        // pre_die($accesos_habilitados);
+
         // pre_die("acceso");
         // $view = view('gerentes.content_view', $data_region);
-        // pre_die($entradasCamaraAyer);
 
         $data = [
             'resumen' => true,

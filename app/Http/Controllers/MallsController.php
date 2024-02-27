@@ -25,6 +25,7 @@ class MallsController extends Controller
             '0' => 'layouts.js.GeneralJS',
             '1' => 'malls.js.MallsJS',
         ];
+        // pre_die($malls)
         $nav_mantenedor_malls = true;
         $nav_listado_malls = true;
         $no_top = true;
@@ -355,9 +356,27 @@ class MallsController extends Controller
                     'mostrar_estadisticas_consolidadas_anio' => isset($post['mostrar_estadisticas_consolidadas_anio_r0']) &&  $post['mostrar_estadisticas_consolidadas_anio_r0'] == 1 ? true : false,
                     'mostrar_estadisticas_comparativas_mes_actual' => isset($post['mostrar_estadisticas_comparativas_mes_actual_r0']) &&  $post['mostrar_estadisticas_comparativas_mes_actual_r0'] == 1 ? true : false,
                     'mostrar_estadisticas_comparativas_mes_anterior' => isset($post['mostrar_estadisticas_comparativas_mes_anterior_r0']) &&  $post['mostrar_estadisticas_comparativas_mes_anterior_r0'] == 1 ? true : false,
-                    'updated_at' => GetTimeStamps()
+                    'updated_at' => GetTimeStamps(),
+                    'estado' => isset($post['acceso_r0']) && $post['acceso_r0'] == 1 ? true : false,
                 ];
                 $rsp_v_r0 = UpdateRow('view_region_r0', $data_updt_r0, $r0_option->id);
+            } else {
+                if (isset($post['acceso_r0'])) {
+                    $data_updt_r0 = [
+                        'mostrar_total_entradas_hoy' => isset($post['mostrar_total_entradas_hoy_r0']) && $post['mostrar_total_entradas_hoy_r0'] == 1 ? true : false,
+                        'mostrar_entradas_segmentadas_hoy' => isset($post['mostrar_entradas_segmentadas_hoy_r0']) &&  $post['mostrar_entradas_segmentadas_hoy_r0'] == 1 ? true : false,
+                        'mostrar_estadisticas_dia_anterior' => isset($post['mostrar_estadisticas_dia_anterior_r0']) &&  $post['mostrar_estadisticas_dia_anterior_r0'] == 1 ? true : false,
+                        'mostrar_estadisticas_consolidadas_mes' => isset($post['mostrar_estadisticas_consolidadas_mes_r0']) &&  $post['mostrar_estadisticas_consolidadas_mes_r0'] == 1 ? true : false,
+                        'mostrar_estadisticas_consolidadas_anio' => isset($post['mostrar_estadisticas_consolidadas_anio_r0']) &&  $post['mostrar_estadisticas_consolidadas_anio_r0'] == 1 ? true : false,
+                        'mostrar_estadisticas_comparativas_mes_actual' => isset($post['mostrar_estadisticas_comparativas_mes_actual_r0']) &&  $post['mostrar_estadisticas_comparativas_mes_actual_r0'] == 1 ? true : false,
+                        'mostrar_estadisticas_comparativas_mes_anterior' => isset($post['mostrar_estadisticas_comparativas_mes_anterior_r0']) &&  $post['mostrar_estadisticas_comparativas_mes_anterior_r0'] == 1 ? true : false,
+                        'created_at' => GetTimeStamps(),
+                        'estado' => isset($post['acceso_r0']) && $post['acceso_r0'] == 1 ? true : false,
+                        'mall_id' => $idmall,
+                        'url_region' => isset($post['acceso_r0_nombre']) ? getUrl($post['acceso_r0_nombre']) : NULL,
+                    ];
+                    $rsp_v_r0 = InsertRow('view_region_r0', $data_updt_r0);
+                }
             }
             if (!empty($r1_option)) {
                 $data_updt_r1 = [
@@ -368,9 +387,28 @@ class MallsController extends Controller
                     'mostrar_estadisticas_consolidadas_anio' => isset($post['mostrar_estadisticas_consolidadas_anio_r1']) &&  $post['mostrar_estadisticas_consolidadas_anio_r1'] == 1 ? true : false,
                     'mostrar_estadisticas_comparativas_mes_actual' => isset($post['mostrar_estadisticas_comparativas_mes_actual_r1']) &&  $post['mostrar_estadisticas_comparativas_mes_actual_r1'] == 1 ? true : false,
                     'mostrar_estadisticas_comparativas_mes_anterior' => isset($post['mostrar_estadisticas_comparativas_mes_anterior_r1']) &&  $post['mostrar_estadisticas_comparativas_mes_anterior_r1'] == 1 ? true : false,
-                    'updated_at' => GetTimeStamps()
+                    'updated_at' => GetTimeStamps(),
+                    'estado' => isset($post['acceso_r1']) && $post['acceso_r1'] == 1 ? true : false,
+
                 ];
                 $rsp_v_r1 = UpdateRow('view_region_r1', $data_updt_r1, $r1_option->id);
+            } else {
+                if (isset($post['acceso_r1'])) {
+                    $data_updt_r1 = [
+                        'mostrar_total_entradas_hoy' => isset($post['mostrar_total_entradas_hoy_r1']) && $post['mostrar_total_entradas_hoy_r1'] == 1 ? true : false,
+                        'mostrar_entradas_segmentadas_hoy' => isset($post['mostrar_entradas_segmentadas_hoy_r1']) &&  $post['mostrar_entradas_segmentadas_hoy_r1'] == 1 ? true : false,
+                        'mostrar_estadisticas_dia_anterior' => isset($post['mostrar_estadisticas_dia_anterior_r1']) &&  $post['mostrar_estadisticas_dia_anterior_r1'] == 1 ? true : false,
+                        'mostrar_estadisticas_consolidadas_mes' => isset($post['mostrar_estadisticas_consolidadas_mes_r1']) &&  $post['mostrar_estadisticas_consolidadas_mes_r1'] == 1 ? true : false,
+                        'mostrar_estadisticas_consolidadas_anio' => isset($post['mostrar_estadisticas_consolidadas_anio_r1']) &&  $post['mostrar_estadisticas_consolidadas_anio_r1'] == 1 ? true : false,
+                        'mostrar_estadisticas_comparativas_mes_actual' => isset($post['mostrar_estadisticas_comparativas_mes_actual_r1']) &&  $post['mostrar_estadisticas_comparativas_mes_actual_r1'] == 1 ? true : false,
+                        'mostrar_estadisticas_comparativas_mes_anterior' => isset($post['mostrar_estadisticas_comparativas_mes_anterior_r1']) &&  $post['mostrar_estadisticas_comparativas_mes_anterior_r1'] == 1 ? true : false,
+                        'created_at' => GetTimeStamps(),
+                        'estado' => isset($post['acceso_r1']) && $post['acceso_r1'] == 1 ? true : false,
+                        'mall_id' => $idmall,
+                        'url_region' => isset($post['acceso_r1_nombre']) ? getUrl($post['acceso_r1_nombre']) : NULL,
+                    ];
+                    $rsp_v_r1 = InsertRow('view_region_r1', $data_updt_r1);
+                }
             }
             if (!empty($r2_option)) {
                 $data_updt_r2 = [
@@ -381,9 +419,28 @@ class MallsController extends Controller
                     'mostrar_estadisticas_consolidadas_anio' => isset($post['mostrar_estadisticas_consolidadas_anio_r2']) &&  $post['mostrar_estadisticas_consolidadas_anio_r2'] == 1 ? true : false,
                     'mostrar_estadisticas_comparativas_mes_actual' => isset($post['mostrar_estadisticas_comparativas_mes_actual_r2']) &&  $post['mostrar_estadisticas_comparativas_mes_actual_r2'] == 1 ? true : false,
                     'mostrar_estadisticas_comparativas_mes_anterior' => isset($post['mostrar_estadisticas_comparativas_mes_anterior_r2']) &&  $post['mostrar_estadisticas_comparativas_mes_anterior_r2'] == 1 ? true : false,
-                    'updated_at' => GetTimeStamps()
+                    'updated_at' => GetTimeStamps(),
+                    'estado' => isset($post['acceso_r2']) && $post['acceso_r2'] == 1 ? true : false,
+
                 ];
                 $rsp_v_r2 = UpdateRow('view_region_r2', $data_updt_r2, $r2_option->id);
+            } else {
+                if (isset($post['acceso_r2'])) {
+                    $data_updt_r2 = [
+                        'mostrar_total_entradas_hoy' => isset($post['mostrar_total_entradas_hoy_r2']) && $post['mostrar_total_entradas_hoy_r2'] == 1 ? true : false,
+                        'mostrar_entradas_segmentadas_hoy' => isset($post['mostrar_entradas_segmentadas_hoy_r2']) &&  $post['mostrar_entradas_segmentadas_hoy_r2'] == 1 ? true : false,
+                        'mostrar_estadisticas_dia_anterior' => isset($post['mostrar_estadisticas_dia_anterior_r2']) &&  $post['mostrar_estadisticas_dia_anterior_r2'] == 1 ? true : false,
+                        'mostrar_estadisticas_consolidadas_mes' => isset($post['mostrar_estadisticas_consolidadas_mes_r2']) &&  $post['mostrar_estadisticas_consolidadas_mes_r2'] == 1 ? true : false,
+                        'mostrar_estadisticas_consolidadas_anio' => isset($post['mostrar_estadisticas_consolidadas_anio_r2']) &&  $post['mostrar_estadisticas_consolidadas_anio_r2'] == 1 ? true : false,
+                        'mostrar_estadisticas_comparativas_mes_actual' => isset($post['mostrar_estadisticas_comparativas_mes_actual_r2']) &&  $post['mostrar_estadisticas_comparativas_mes_actual_r2'] == 1 ? true : false,
+                        'mostrar_estadisticas_comparativas_mes_anterior' => isset($post['mostrar_estadisticas_comparativas_mes_anterior_r2']) &&  $post['mostrar_estadisticas_comparativas_mes_anterior_r2'] == 1 ? true : false,
+                        'created_at' => GetTimeStamps(),
+                        'estado' => isset($post['acceso_r2']) && $post['acceso_r2'] == 1 ? true : false,
+                        'mall_id' => $idmall,
+                        'url_region' => isset($post['acceso_r2_nombre']) ? getUrl($post['acceso_r2_nombre']) : NULL,
+                    ];
+                    $rsp_v_r2 = InsertRow('view_region_r2', $data_updt_r2);
+                }
             }
             if (!empty($r3_option)) {
                 $data_updt_r3 = [
@@ -394,9 +451,29 @@ class MallsController extends Controller
                     'mostrar_estadisticas_consolidadas_anio' => isset($post['mostrar_estadisticas_consolidadas_anio_r3']) &&  $post['mostrar_estadisticas_consolidadas_anio_r3'] == 1 ? true : false,
                     'mostrar_estadisticas_comparativas_mes_actual' => isset($post['mostrar_estadisticas_comparativas_mes_actual_r3']) &&  $post['mostrar_estadisticas_comparativas_mes_actual_r3'] == 1 ? true : false,
                     'mostrar_estadisticas_comparativas_mes_anterior' => isset($post['mostrar_estadisticas_comparativas_mes_anterior_r3']) &&  $post['mostrar_estadisticas_comparativas_mes_anterior_r3'] == 1 ? true : false,
-                    'updated_at' => GetTimeStamps()
+                    'updated_at' => GetTimeStamps(),
+                    'estado' => isset($post['acceso_r3']) && $post['acceso_r3'] == 1 ? true : false,
                 ];
                 $rsp_v_r3 = UpdateRow('view_region_r3', $data_updt_r3, $r3_option->id);
+            } else {
+                if (isset($post['acceso_r3'])) {
+
+                    $data_updt_r3 = [
+                        'mostrar_total_entradas_hoy' => isset($post['mostrar_total_entradas_hoy_r3']) && $post['mostrar_total_entradas_hoy_r3'] == 1 ? true : false,
+                        'mostrar_entradas_segmentadas_hoy' => isset($post['mostrar_entradas_segmentadas_hoy_r3']) &&  $post['mostrar_entradas_segmentadas_hoy_r3'] == 1 ? true : false,
+                        'mostrar_estadisticas_dia_anterior' => isset($post['mostrar_estadisticas_dia_anterior_r3']) &&  $post['mostrar_estadisticas_dia_anterior_r3'] == 1 ? true : false,
+                        'mostrar_estadisticas_consolidadas_mes' => isset($post['mostrar_estadisticas_consolidadas_mes_r3']) &&  $post['mostrar_estadisticas_consolidadas_mes_r3'] == 1 ? true : false,
+                        'mostrar_estadisticas_consolidadas_anio' => isset($post['mostrar_estadisticas_consolidadas_anio_r3']) &&  $post['mostrar_estadisticas_consolidadas_anio_r3'] == 1 ? true : false,
+                        'mostrar_estadisticas_comparativas_mes_actual' => isset($post['mostrar_estadisticas_comparativas_mes_actual_r3']) &&  $post['mostrar_estadisticas_comparativas_mes_actual_r3'] == 1 ? true : false,
+                        'mostrar_estadisticas_comparativas_mes_anterior' => isset($post['mostrar_estadisticas_comparativas_mes_anterior_r3']) &&  $post['mostrar_estadisticas_comparativas_mes_anterior_r3'] == 1 ? true : false,
+                        'estado' => isset($post['acceso_r3']) && $post['acceso_r3'] == 1 ? true : false,
+                        'mall_id' => $idmall,
+                        'created_at' => GetTimeStamps(),
+                        'url_region' => isset($post['acceso_r3_nombre']) ? getUrl($post['acceso_r3_nombre']) : NULL,
+                    ];
+
+                    $rsp_v_r3 = InsertRow('view_region_r3', $data_updt_r3);
+                }
             }
             $data_rvehicle = [
                 // 'mostrar_flujo_personas' => isset($post['mostrar_flujo_personas_rvehicle']) && $post['mostrar_flujo_personas_rvehicle'] == 1 ? true : false,
@@ -420,6 +497,34 @@ class MallsController extends Controller
                 $data_rvehicle['created_at'] = GetTimeStamps();
                 $rsp_v_vehicle = InsertRow('view_vehicle', $data_rvehicle);
             }
+            // pre_die($post);
+            $camaras = isset($post['camaras']) ? $post['camaras'] : [];
+            if (!empty($camaras)) {
+                foreach ($camaras as $camara) {
+                    // pre_die($camara);
+                    $marketing_id = $camara['marketing_id'];
+                    $nombre_camara = $camara['nombre_camara'];
+                    $id_camara = $camara['id_camara'];
+                    if (!empty($marketing_id) && !empty($nombre_camara)) {
+                        $cam = GetRowByWhere('view_marketing', ['estado' => true, 'eliminado' => false, 'id' => $id_camara]);
+
+                        $new_camera = [
+                            'entrada_marketing_id' => $marketing_id,
+                            'titulo_entrada' => $nombre_camara,
+                            'estado' => true,
+                            'eliminado' => false,
+                        ];
+                        if (!empty($cam)) {
+                            $new_camera['updated_at'] = GetTimeStamps();
+                            UpdateRow('view_marketing', $new_camera, $id_camara);
+                        } else {
+                            $new_camera['mall_id'] = $idmall;
+                            $new_camera['created_at'] = GetTimeStamps();
+                            InsertRow('view_marketing', $new_camera);
+                        }
+                    }
+                }
+            }
             // pre_die($mall);
 
             // Insertar nuevo mall
@@ -437,7 +542,7 @@ class MallsController extends Controller
         // $data = $conexion->query('select * from nombre_camaras;')->fetchAll();
         // $nombres_camaras
 
-        $camaras = QueryBuilder('view_marketing', ['estado' => true, 'mall_id' => $idmall]);
+        $camaras = QueryBuilder('view_marketing', ['estado' => true, 'mall_id' => $idmall, 'eliminado' => false]);
         // pre_die($camaras);
 
         $js_content = [

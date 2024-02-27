@@ -73,7 +73,7 @@ class RegionController extends Controller
         // pre_die($datosAnioAnt);
 
 
-        // pre_die($datosAnualesAnt);
+        // pre_die($datosMensualesAnt);
 
         return view('layouts.regiones.region_r1_view', compact(
             'nav_acceso_r1',
@@ -195,7 +195,6 @@ class RegionController extends Controller
         $idmall = auth()->user()->id_mall;
 
         $region3 = GetDataApi('region3', $idmall);
-
         $aforoHoy = !empty($region3->aforo_hoy_r3) ? $region3->aforo_hoy_r3 : [];
         $aforoAyer = !empty($region3->aforo_ayer_r3) ? $region3->aforo_ayer_r3 : [];
         $personasSegmentoAyer = !empty($region3->personas_segmento_ayer_r3) ? $region3->personas_segmento_ayer_r3 : [];
@@ -205,11 +204,13 @@ class RegionController extends Controller
         $datosAnuales = !empty($region3->datos_anuales_r3) ? $region3->datos_anuales_r3 : [];
         $datosAnualesAnt = !empty($region3->datos_anuales_ant_r3) ? $region3->datos_anuales_ant_r3 : [];
         $datosMensuales = !empty($region3->datos_mensuales_r3) ? $region3->datos_mensuales_r3 : [];
-        $datosMensualesAnt = !empty($region3->datos_mensuales_ant_r3) ? $region3->datos_mensuales_ant_r3 : [];
+        $datosMensualesAnt = isset($region3->datos_mensuales_ant_r3) ? $region3->datos_mensuales_ant_r3 : [];
         $comparativoMesActual = !empty($region3->comparativo_mes_actual_r3) ? $region3->comparativo_mes_actual_r3 : [];
         $comparativoMesAnterior = !empty($region3->comparativo_mes_anterior_r3) ? $region3->comparativo_mes_anterior_r3 : [];
+        // pre($comparativoMesAnterior);
+        // $datosMensualesAnt = (array)$datosMensualesAnt;
 
-        // pre_die($datosAnuales);
+        // pre_die($datosAnualesAnt);
         $js_content = [
             '0' => 'layouts/js/GeneralJS',
             '1' => 'layouts/regiones/js/RegionR3JS',

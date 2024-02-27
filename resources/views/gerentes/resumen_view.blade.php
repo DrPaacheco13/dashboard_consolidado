@@ -14,9 +14,10 @@
                     <thead>
                         <tr>
                             <th class="text-center">MALL</th>
-                            <th class="text-center">ENTRADA VEHICULOS</th>
-                            <th class="text-center">ENTRADA PERSONAS</th>
-                            <th class="text-center">GENERO</th>
+                            <th class="text-center">VEHICULOS</th>
+                            <th class="text-center">PERSONAS</th>
+                            <th class="text-center">HOMBRES</th>
+                            <th class="text-center">MUJERES</th>
                             <th class="text-center">ACCION</th>
                         </tr>
                     </thead>
@@ -24,31 +25,28 @@
                         @if (!empty($datos_malls))
                             @foreach ($datos_malls as $mall)
                                 <tr>
-                                    <td class="text-center">
+                                    <td class="text-right">
                                         {{ !empty($mall->mall->nombre) ? StrUpper($mall->mall->nombre) : 'Sin Información' }}
                                     </td>
-                                    <td class="text-center">
-                                        {{ !empty($mall->aforo_actual_vehiculos) ? $mall->aforo_actual_vehiculos : 'Sin Información' }}
+                                    <td class="text-right">
+                                        {{ !empty($mall->aforo_actual_vehiculos) ? formatear_miles($mall->aforo_actual_vehiculos) : 'Sin Información' }}
                                     </td>
-                                    <td class="text-center">
-                                        {{ !empty($mall->aforo_actual_personas) ? $mall->aforo_actual_personas : 'Sin Información' }}
+                                    <td class="text-right">
+                                        {{ !empty($mall->aforo_actual_personas) ? formatear_miles($mall->aforo_actual_personas) : 'Sin Información' }}
                                     </td>
-                                    <td class="text-center">
-                                        <p>
-                                            Hombres:
-                                            {{ !empty($mall->total_hombres) ? round($mall->total_hombres, 2) . '%' : 'Sin Información' }}
-                                            <br>
-                                            Mujeres:
-                                            {{ !empty($mall->total_mujeres) ? round($mall->total_mujeres, 2) . '%' : 'Sin Información' }}
-                                        </p>
+                                    <td class="text-right">
+                                        {{ !empty($mall->total_hombres) ? round($mall->total_hombres, 2) . '%' : 'Sin Información' }}
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-right">
+                                        {{ !empty($mall->total_mujeres) ? round($mall->total_mujeres, 2) . '%' : 'Sin Información' }}
+                                    </td>
+                                    <td class="text-right">
                                         <div class="btn-group">
                                             <a class="btn btn-sm btn-primary"
                                                 href="{{ route('gerentes/ver-mall', ['mall_id' => $mall->mall->id]) }}"><i
-                                                    class="fas fa-eye"></i> Ver Detalle</a>
-                                            <a class="btn btn-sm btn-success" type="button"><i class="fas fa-share"></i>
-                                                Ver Mall</a>
+                                                    class="fas fa-eye"></i> Detalles</a>
+                                            <a class="btn btn-sm btn-success" href="{{ route('redirect/mall', ['id' => $mall->mall->id]) }}" type="button"><i class="fas fa-share"></i>
+                                                Mall</a>
                                         </div>
                                     </td>
                                 </tr>

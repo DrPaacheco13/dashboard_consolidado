@@ -1,4 +1,24 @@
 <div class="container" style="align-content: center">
+
+    <div class="row">
+        <div class="col-xl-9">
+            <div id="EntradaHoy" class="col-md-12 shadow-sm chartHoy card graHoy" style="margin-top: 15px;"></div>
+        </div>
+        <div class="col-xl-3 d-flex align-items-center text-center">
+            <div class="card card-body">
+                <br>
+                <h3>Flujo de Vehiculos</h3>
+                <br>
+                <p>Total Entradas</p>
+                <b>{{ !empty($aforo_actual[0]) ? $aforo_actual[0]->totalenter : 0 }}</b>
+                <br>
+                <p>Estadía Promedio</p>
+                <b>{{ !empty($aforo_actual[0]) ? $aforo_actual[0]->estadia : 0 }}</b>
+                <br>
+            </div>
+        </div>
+    </div>
+    <?php /* 
     <div class="row">
         <div class="col-md-4 card shadow-sm">
             <table class="table table-hover">
@@ -63,9 +83,12 @@
             </div>
         </div>
     </div>
+*/
+    ?>
+
 </div>
 
-
+<?php /*
 <script type="text/javascript">
     Highcharts.chart("container", {
         colors: ['#346DA4', '#7CB5EC', '#a9cef2'],
@@ -160,7 +183,8 @@
 
 {{-- Total Entradas Dia Actual --}}
 {{-- Total de entradas por mes
---}}
+--}} */
+?>
 <script type="text/javascript">
     Highcharts.chart("EntradaHoy", {
         colors: ['#f7a311', '#346DA4', '#7CB5EC', '#a9cef2'],
@@ -205,7 +229,7 @@
         }]
     });
 </script>
-
+<?php /*
 <script>
     Highcharts.chart('acumuladoAnual', {
         colors: ['#346DA4', '#f7a311', '#7CB5EC', '#a9cef2'],
@@ -317,3 +341,5 @@
         }]
     });
 </script>
+*/
+?>

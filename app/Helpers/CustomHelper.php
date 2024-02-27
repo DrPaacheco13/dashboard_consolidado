@@ -334,6 +334,7 @@ function GetDataApi($endpoint = 'getAforoHoyR0', $mall_id = null, $select = null
     $response = [];
     $curl = curl_init();
     $url = "http://127.0.0.1:5001/api/$endpoint";
+    // $url = "http://34.176.180.19/api/$endpoint";
 
     if (!empty($mall_id)) {
         $url .= "/$mall_id";
@@ -364,7 +365,7 @@ function GetDataApi($endpoint = 'getAforoHoyR0', $mall_id = null, $select = null
     }
 
     $response = curl_exec($curl);
-
+    // pre_die($response):;
     curl_close($curl);
 
     return json_decode($response);

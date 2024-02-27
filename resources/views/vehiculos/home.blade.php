@@ -81,7 +81,7 @@
         </div>
         <p class="display-8 datosOtros" style="margin-top: 10px;">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3"> 
                 <p class="datosHoy display-8" style="margin-left: 11px">
                 <h5>Estadísticas del día anterior</h5>
             </div>

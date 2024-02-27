@@ -1,9 +1,22 @@
 <div class="container-xl">
 
-    <div class="row d-flex justify-content-center">
-
-        <div id="segmentos_{{ $region }}" class="col-md-12 shadow-sm" style="margin-top: 15px;"></div>
+    <div class="row">
+        <div class="col-xl-9">
+            <div id="segmentos_{{ $region }}" class="shadow-sm" style="margin-top: 15px;"></div>
+        </div>
+        <div class="col-xl-3 d-flex align-items-center text-center">
+            <div class="card card-body">
+                <br>
+                <h3>Flujo de Clientes</h3>
+                <br>
+                <p>Total Entradas</p>
+                <b>{{ !empty($aforo_actual[0]) ? $aforo_actual[0]->Entradas : 0 }}</b>
+                <br>
+            </div>
+        </div>
     </div>
+
+    <?php /*
     <hr>
     <p class="display-8 datosOtros" style="margin-top: 10px;">
     <div class="row">
@@ -153,9 +166,58 @@
             <div id="comparativasMesDomingoANT_{{ $region }}"></div>
         </div>
     </div>
+    */
+    ?>
 </div>
 
+<script type="text/javascript">
+    Highcharts.chart("segmentos_{{ $region }}", {
+        colors: ['#f7a311', '#346DA4', '#7CB5EC', '#a9cef2'],
+        chart: {
+            type: "spline",
+            zoomType: "xy"
+        },
+        title: {
+            text: "Entrada"
+        },
+        xAxis: {
+            crosshair: true,
+            title: {
+                text: "Year"
+            }
+        },
+        yAxis: {
+            title: {
+                text: "Cantidad"
+            }
+        },
+        xAxis: {
+            categories: [
+                @foreach ($personasSegmentoHoy as $item)
+                    '{{ $item->segmento }}',
+                @endforeach
+            ]
+        },
+        legend: {
+            enabled: true
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            name: "Entrada",
+            data: [
+                @foreach ($personasSegmentoHoy as $toDay)
+                    {{ $toDay->Entrada }},
+                @endforeach
+            ]
+        }]
+    });
+</script>
 
+
+<?php
+/*
 {{-- Entradas Por Camara! --}}
 @if (!empty($entradasCamaraAyer))
     <script type="text/javascript">
@@ -253,50 +315,7 @@
 
 {{-- Total Entradas Dia Actual --}}
 
-<script type="text/javascript">
-    Highcharts.chart("segmentos_{{ $region }}", {
-        colors: ['#f7a311', '#346DA4', '#7CB5EC', '#a9cef2'],
-        chart: {
-            type: "spline",
-            zoomType: "xy"
-        },
-        title: {
-            text: "Entrada"
-        },
-        xAxis: {
-            crosshair: true,
-            title: {
-                text: "Year"
-            }
-        },
-        yAxis: {
-            title: {
-                text: "Cantidad"
-            }
-        },
-        xAxis: {
-            categories: [
-                @foreach ($personasSegmentoHoy as $item)
-                    '{{ $item->segmento }}',
-                @endforeach
-            ]
-        },
-        legend: {
-            enabled: true
-        },
-        credits: {
-            enabled: false
-        },
-        series: [{
-            name: "Entrada",
-            data: [
-                @foreach ($personasSegmentoHoy as $toDay)
-                    {{ $toDay->Entrada }},
-                @endforeach
-            ]
-        }]
-    });
-</script>
+
 
 <script>
     Highcharts.chart('acumuladoAnual_{{ $region }}', {
@@ -534,3 +553,5 @@
         return colors;
     }
 </script>
+*/
+?>
