@@ -30,7 +30,7 @@
     <!-- Theme CSS -->
 
     {{-- <link href="{{ asset('css/adminlte.min.css') }}" rel='stylesheet'> --}}
-    {{-- <link href="{{ asset('dist/css/adminlte.min.css') }}" rel='stylesheet'> --}}
+    <link href="{{ asset('dist/css/adminlte.min.css') }}" rel='stylesheet'>
     {{-- <link href="{{ asset('css/adminlte.min.css') }}" rel='stylesheet'> --}}
     {{-- <link href="{{ asset('css/tab-style.css') }}" rel='stylesheet'> --}}
 
@@ -38,7 +38,7 @@
         'resources/sass/app.scss',
         'resources/js/app.js',
         // 'resources/plugins/fontawesome-free/css/all.min.css',
-        'resources/dist/css/adminlte.min.css',
+        // 'resources/dist/css/adminlte.min.css',
         // 'resources/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',
         // 'resources/plugins/datatables-responsive/css/responsive.bootstrap4.min.css',
         // 'resources/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'
