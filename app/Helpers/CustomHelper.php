@@ -219,10 +219,11 @@ function configureDatabaseConnection($data = null)
 {
     if (empty($data)) {
         $id_mall = auth()->user()->id_mall;
-        $databaseInfo = GetRowByWhere('databases', ['mall_id' => $id_mall]);
+        $databaseInfo = GetRowByWhere('databases', ['mall_id' => $id_mall, 'estado' => true, 'deleted' => false]);
     } else {
         $databaseInfo = $data;
     }
+    // pre_die($databaseInfo);
     // Configura la conexión a la segunda base de datos MySQL
     config(['database.connections.mysql_1' => [
         'driver' => 'mysql',
@@ -333,8 +334,7 @@ function GetDataApi($endpoint = 'getAforoHoyR0', $mall_id = null, $select = null
 {
     $response = [];
     $curl = curl_init();
-    $url = "http://127.0.0.1:5001/api/$endpoint";
-    // $url = "http://34.176.180.19/api/$endpoint";
+    $url = "http://127.0.0.1:5000/api/$endpoint";
 
     if (!empty($mall_id)) {
         $url .= "/$mall_id";
@@ -342,7 +342,7 @@ function GetDataApi($endpoint = 'getAforoHoyR0', $mall_id = null, $select = null
     if (!empty($select)) {
         $url .= "/$select";
     }
-    // pre_die($postData);
+
     $opt = [
         CURLOPT_URL => $url,
         CURLOPT_RETURNTRANSFER => true,
@@ -357,18 +357,26 @@ function GetDataApi($endpoint = 'getAforoHoyR0', $mall_id = null, $select = null
         $opt[CURLOPT_HTTPHEADER] = array(
             'Content-Type: application/json'
         );
+        $opt[CURLOPT_POSTFIELDS] = json_encode($postData); // Convertir $postData a JSON
     }
     curl_setopt_array($curl, $opt);
 
-    if ($method === 'POST') {
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+    $response = curl_exec($curl);
+    if ($response === false) {
+        $error = curl_error($curl);
+        curl_close($curl);
+        return "Error en la solicitud: $error";
     }
 
-    $response = curl_exec($curl);
-    // pre_die($response):;
-    curl_close($curl);
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    if ($httpCode >= 400) {
+        curl_close($curl);
+        return "Error HTTP $httpCode al hacer la solicitud";
+    }
 
-    return json_decode($response);
+    curl_close($curl);
+    // pre_die(json_de);
+    return json_decode($response); // Convertir JSON a array asociativo
 }
 
 
@@ -434,4 +442,13 @@ function obtenerMesesDelAnio()
         'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
         'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
     ];
+}
+function formato_fecha_humano($fecha) {
+    // Convierte la fecha a un objeto DateTime
+    $fecha_objeto = new DateTime($fecha);
+    
+    // Formatea la fecha en el formato deseado
+    $fecha_formateada = $fecha_objeto->format('D, d M Y H:i:s T');
+    
+    return $fecha_formateada;
 }

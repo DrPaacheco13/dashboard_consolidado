@@ -295,7 +295,7 @@
     diasSemana.forEach(dia => {
         crearGraficoPorDia(dia, datosMesActual);
         // console.log(datosMesAnterior);
-        if (Array.isArray(datosMesAnterior) && datosMesAnterior.length > 0) {
+        if (Array.isArray(datosMesAnterior)) {
             console.log('siu');
             crearGraficoPorDia(dia, datosMesAnterior, 'ANT');
         }

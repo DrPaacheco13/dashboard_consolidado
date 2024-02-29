@@ -10,7 +10,7 @@
                 <h3>Flujo de Vehiculos</h3>
                 <br>
                 <p>Total Entradas</p>
-                <b>{{ !empty($aforo_actual[0]) ? $aforo_actual[0]->totalenter : 0 }}</b>
+                <b>{{ !empty($aforo_actual[0]) ? formatear_miles($aforo_actual[0]->totalenter) : 0 }}</b>
                 <br>
                 <p>Estadía Promedio</p>
                 <b>{{ !empty($aforo_actual[0]) ? $aforo_actual[0]->estadia : 0 }}</b>

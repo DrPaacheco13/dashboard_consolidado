@@ -51,10 +51,12 @@ class MarketingController extends Controller
         ];
         $mall = GetRowByWhere('malls', ['id' => $idmall]);
         $valida_reload = true;
+        $nav_marketing_dia = true;
         $seccion_flujo = StrUpper('Características de Clientes');
         $nombre_mall = StrUpper($mall->nombre);
         $acceso_mall = StrUpper($fechaMarketing);
         return view('layouts.marketing.index', compact(
+            'nav_marketing_dia',
             'valida_reload',
             'nombre_mall',
             'acceso_mall',
@@ -102,6 +104,7 @@ class MarketingController extends Controller
             }
         }
         $valida_reload = true;
+        $nav_marketing_anterior = true;
         $mall = GetRowByWhere('malls', ['id' => $idmall]);
         //$valida_reload = true;
         $seccion_flujo = StrUpper('Características de Clientes');
@@ -111,6 +114,7 @@ class MarketingController extends Controller
         // $yesterday_text = GetYesterdayText();
         // pre_die($rangoEtarioAnterior);
         return view('layouts.marketing.index2', compact(
+            'nav_marketing_anterior',
             'acceso_mall',
             'nombre_mall',
             'seccion_flujo',

@@ -10,7 +10,7 @@
             </div>
             <br>
             <div class="row table-responsive">
-                <table class="table w-100" id="table-resumen">
+                <table class="table table-bordered table-hover w-100" id="table-resumen">
                     <thead>
                         <tr>
                             <th class="text-center">MALL</th>
@@ -25,7 +25,7 @@
                         @if (!empty($datos_malls))
                             @foreach ($datos_malls as $mall)
                                 <tr>
-                                    <td class="text-right">
+                                    <td class="text-left">
                                         {{ !empty($mall->mall->nombre) ? StrUpper($mall->mall->nombre) : 'Sin Información' }}
                                     </td>
                                     <td class="text-right">
@@ -40,7 +40,7 @@
                                     <td class="text-right">
                                         {{ !empty($mall->total_mujeres) ? round($mall->total_mujeres, 2) . '%' : 'Sin Información' }}
                                     </td>
-                                    <td class="text-right">
+                                    <td class="text-center">
                                         <div class="btn-group">
                                             <a class="btn btn-sm btn-primary"
                                                 href="{{ route('gerentes/ver-mall', ['mall_id' => $mall->mall->id]) }}"><i

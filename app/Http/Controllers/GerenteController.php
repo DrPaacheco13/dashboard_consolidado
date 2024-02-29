@@ -50,7 +50,7 @@ class GerenteController extends Controller
     public function RedirectMall($mall_id)
     {
         if (!is_numeric($mall_id)) {
-            return redirect('gerentes/administracion');
+            return redirect('gerentes/resumen');
         }
         $role_id = auth()->user()->role_id;
         if ($role_id < 3) {
@@ -98,7 +98,7 @@ class GerenteController extends Controller
         }
         auth()->logout();
         auth()->loginUsingId($user->id);
-        return redirect('/');
+        return redirect('gerentes/resumen');
     }
 
     public function ResumenMalls()

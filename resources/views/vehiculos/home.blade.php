@@ -26,7 +26,7 @@
                         <div class="info-box-content">
                             <span class="info-box-text"><b>Última Actualización</b></span>
                             <span class="info-box-number">
-                                {{ !empty($salidasVehiculos) ? $salidasVehiculos->tiempo : 'Sin Información' }}
+                                {{ !empty($time_actualizacion[0]) ? $time_actualizacion[0]->tiempo : 'Sin Información' }}
                             </span>
                         </div>
                     </div>

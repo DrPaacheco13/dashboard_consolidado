@@ -39,16 +39,17 @@ class DiaExcel implements FromView, ShouldAutoSize
 
         $nombre_acceso = '';
         if ($seleccion == 1) {
-            $nombre_acceso = 'Acceso General';
-            $datos_segmentados = $Consulta->DatosSegmentadosExcelxDiaR1($fecha, $fecha2);
+            $nombre_acceso = !empty($mall->acceso_r1_nombre) ? $mall->acceso_r1_nombre : 'ACCESO';
         } elseif ($seleccion == 2) {
-            $nombre_acceso = 'Acceso Exterior';
-            $datos_segmentados = $Consulta->DatosSegmentadosExcelxDiaR2($fecha, $fecha2);
+            $nombre_acceso = !empty($mall->acceso_r2_nombre) ? $mall->acceso_r2_nombre : 'ACCESO';
         } elseif ($seleccion == 3) {
-            $nombre_acceso = 'Acceso Patio Comida';
+            $nombre_acceso = !empty($mall->acceso_r3_nombre) ? $mall->acceso_r3_nombre : 'ACCESO';
         }
-
-
+        $endpoint = 'get-datos-dia-excel';
+        $datos_segmentados = GetDataApi($endpoint, $idmall, '', 'POST', [$seleccion, $fecha, $fecha2]);
+        // pre('0asd');
+        $datos_segmentados = !empty($datos_segmentados) ? $datos_segmentados->data : [];
+        // pre_die($datos_segmentados);
         return view('layouts.buscar.excelxDia', compact('date', 'nombre_acceso', 'namemall', 'datos_segmentados', 'idmall'));
     }
 }

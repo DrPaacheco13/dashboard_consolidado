@@ -25,8 +25,10 @@ credenciales_por_mall = {
     5: {'host': '186.10.7.214', 'user': 'antofagasta', 'password': 'C#3t8JrQW7r3!AGt$5', 'database': 'data_euantofagasta'},
     6: {'host': '186.10.7.214', 'user': 'puntarenas', 'password': '!@9E5P8l25t2OQy*gV', 'database': 'data_eupuntarenas'},
     14: {'host': '186.10.7.214', 'user': 'eulalaguna', 'password': 'l9O"4zrG2Oo7U-vg*I', 'database': 'data_eulalaguna'},
-    26: {'host': '186.10.7.214', 'user': 'eulalaguna', 'password': 'l9O"4zrG2Oo7U-vg*I', 'database': 'data_eulalaguna'},
+    # 26: {'host': '186.10.7.214', 'user': 'eulalaguna', 'password': 'l9O"4zrG2Oo7U-vg*I', 'database': 'data_eulalaguna'},
+    # 16: {'host': '186.10.7.214', 'user': 'granavenida', 'password': '9_uB<6]TjP_hWl24d4', 'database': 'data_granavenida'},
     27: {'host': '186.10.7.214', 'user': 'granavenida', 'password': '9_uB<6]TjP_hWl24d4', 'database': 'data_granavenida'},
+    30: {'host': '186.10.7.214', 'user': 'puentealto', 'password': 'ZPS8+x]Lu8D?W>8(7F', 'database': 'data_puentealto'},
 }
 
 
@@ -75,14 +77,16 @@ def ejecutar_consulta(query, data=None, mall_id=None, local=None, conexion = Non
                 conexion = conectar_a_base_de_datos(mall_id)
         
         if conexion:
-            with conexion.cursor(dictionary=True) as cursor:
-                if data is not None:
-                    cursor.execute(query, data)
-                else:
-                    cursor.execute(query)
+            try:
+                with conexion.cursor(dictionary=True) as cursor:
+                    if data is not None:
+                        cursor.execute(query, data)
+                    else:
+                        cursor.execute(query)
 
-                resultados = cursor.fetchall()
-
+                    resultados = cursor.fetchall()
+            except Exception as e:
+                return str(e)
             return resultados
     except Exception as e:
         return str(e)
@@ -286,7 +290,7 @@ def get_datos_anuales_ant_r1(mall_id):
 
 
 def get_datos_mensuales_r1(mall_id):
-    atributo_especial = 'totalenternum' if mall_id not in [5, 6, 26, 27] else 'totalenter'
+    atributo_especial = 'totalenternum' if mall_id not in [5, 6, 26, 27, 30] else 'totalenter'
 
     query = "SELECT " + atributo_especial + " as tEntrada, " \
             "DATE_FORMAT(date, '%d-%m') as date " \
@@ -300,7 +304,7 @@ def get_datos_mensuales_r1(mall_id):
 from datetime import datetime, timedelta
 
 def get_datos_mensuales_ant_r1(mall_id):
-    atributo_especial = 'totalenternum' if mall_id not in [5, 6, 27] else 'totalenter'
+    atributo_especial = 'totalenternum' if mall_id not in [5, 6, 27, 30] else 'totalenter'
     fecha_actual = datetime.now()
 
     fecha_hace_12_meses = fecha_actual - timedelta(days=365)
@@ -326,7 +330,7 @@ def get_datos_mensuales_ant_r1(mall_id):
 
 def comparativo_mes_actual_r1(mall_id):
     atributo_especial = 'totalenternum' if mall_id not in [
-        5, 6, 27] else 'totalenter'
+        5, 6, 27, 30] else 'totalenter'
     query = "SELECT " + atributo_especial + " as entrada, " \
             "CASE " \
             "WHEN DAYNAME(date) = 'Monday' THEN 'Lunes' " \
@@ -346,7 +350,7 @@ def comparativo_mes_actual_r1(mall_id):
 
 
 def comparativo_mes_anterior_r1(mall_id):
-    atributo_especial = 'totalenternum' if mall_id not in [5, 6, 27] else 'totalenter'
+    atributo_especial = 'totalenternum' if mall_id not in [5, 6, 27, 30] else 'totalenter'
 
     # Obtener la fecha del mes anterior
     fecha_mes_anterior = datetime.now() - timedelta(days=datetime.now().day)
@@ -405,7 +409,7 @@ def get_datos_anuales_ant_r0(mall_id):
 
 def get_datos_mensuales_r0(mall_id):
     atributo_especial = 'totalenternum' if mall_id not in [
-        5, 6, 27] else 'totalenter'
+        5, 6, 27, 30] else 'totalenter'
     query = """
             SELECT {0} as tEntrada, 
             DATE_FORMAT(date, '%d-%m') as date 
@@ -419,7 +423,7 @@ def get_datos_mensuales_r0(mall_id):
     return data if data else []
 
 def get_datos_mensuales_ant_r0(mall_id):
-    atributo_especial = 'totalenternum' if mall_id not in [5, 6, 27] else 'totalenter'
+    atributo_especial = 'totalenternum' if mall_id not in [5, 6, 27, 30] else 'totalenter'
     fecha_actual = datetime.now()
 
     fecha_hace_12_meses = fecha_actual - timedelta(days=365)
@@ -440,7 +444,7 @@ def get_datos_mensuales_ant_r0(mall_id):
 
 def comparativo_mes_actual_r0(mall_id):
     atributo_especial = 'totalenternum' if mall_id not in [
-        5, 6, 27] else 'totalenter'
+        5, 6, 27, 30] else 'totalenter'
 
     query = "SELECT " + atributo_especial + " as entrada, " \
             "CASE " \
@@ -460,7 +464,7 @@ def comparativo_mes_actual_r0(mall_id):
 
 def comparativo_mes_anterior_r0(mall_id):
     atributo_especial = 'totalenternum' if mall_id not in [
-        5, 6, 27] else 'totalenter'
+        5, 6, 27, 30] else 'totalenter'
     fecha_mes_anterior = datetime.now() - timedelta(days=datetime.now().day)
 
     query = "SELECT " + atributo_especial + " as entrada, " \
@@ -520,7 +524,7 @@ def get_datos_anuales_ant_r2(mall_id):
 
 def get_datos_mensuales_r2(mall_id):
     atributo_especial = 'totalenternum' if mall_id not in [
-        5, 6, 27] else 'totalenter'
+        5, 6, 27, 30] else 'totalenter'
     query = """
             SELECT {0} as tEntrada, 
             DATE_FORMAT(date, '%d-%m') as date 
@@ -533,7 +537,7 @@ def get_datos_mensuales_r2(mall_id):
     return data if data else []
 def get_datos_mensuales_ant_r2(mall_id):
     atributo_especial = 'totalenternum' if mall_id not in [
-        5, 6, 27] else 'totalenter'
+        5, 6, 27, 30] else 'totalenter'
     fecha_actual = datetime.now()
     fecha_hace_12_meses = fecha_actual - timedelta(days=365)
     query = """
@@ -552,7 +556,7 @@ def get_datos_mensuales_ant_r2(mall_id):
 
 def comparativo_mes_actual_r2(mall_id):
     atributo_especial = 'totalenternum' if mall_id not in [
-        5, 6, 27] else 'totalenter'
+        5, 6, 27, 30] else 'totalenter'
     query = "SELECT " + atributo_especial + " as entrada, " \
             "CASE " \
             "WHEN DAYNAME(date) = 'Monday' THEN 'Lunes' " \
@@ -571,7 +575,7 @@ def comparativo_mes_actual_r2(mall_id):
 
 def comparativo_mes_anterior_r2(mall_id):
     atributo_especial = 'totalenternum' if mall_id not in [
-        5, 6, 27] else 'totalenter'
+        5, 6, 27, 30] else 'totalenter'
     fecha_mes_anterior = datetime.now() - timedelta(days=datetime.now().day)
     
     query = "SELECT " + atributo_especial + " as entrada, " \
@@ -625,7 +629,7 @@ def get_datos_anuales_ant_r3(mall_id):
 
 def get_datos_mensuales_r3(mall_id):
     atributo_especial = 'totalenternum' if mall_id not in [
-        5, 6, 27] else 'totalenter'
+        5, 6, 27, 30] else 'totalenter'
     query = """
             SELECT {0} as tEntrada, 
             DATE_FORMAT(date, '%d-%m') as date 
@@ -638,7 +642,7 @@ def get_datos_mensuales_r3(mall_id):
     return data if data else []
 def get_datos_mensuales_ant_r3(mall_id):
     atributo_especial = 'totalenternum' if mall_id not in [
-        5, 6, 27] else 'totalenter'
+        5, 6, 27, 30] else 'totalenter'
     fecha_actual = datetime.now()
     fecha_hace_12_meses = fecha_actual - timedelta(days=365)
     query = """
@@ -656,7 +660,7 @@ def get_datos_mensuales_ant_r3(mall_id):
 
 def comparativo_mes_actual_r3(mall_id):
     atributo_especial = 'totalenternum' if mall_id not in [
-        5, 6, 27] else 'totalenter'
+        5, 6, 27, 30] else 'totalenter'
     query = "SELECT " + atributo_especial + " as entrada, " \
             "CASE " \
             "WHEN DAYNAME(date) = 'Monday' THEN 'Lunes' " \
@@ -675,7 +679,7 @@ def comparativo_mes_actual_r3(mall_id):
 
 def comparativo_mes_anterior_r3(mall_id):
     atributo_especial = 'totalenternum' if mall_id not in [
-        5, 6, 27] else 'totalenter'
+        5, 6, 27, 30] else 'totalenter'
     
     fecha_mes_anterior = datetime.now() - timedelta(days=datetime.now().day)
 
@@ -806,7 +810,7 @@ def get_rango_etario_ayer(mall_id):
 def get_pdf_grafico_x_dia_r0(mall_id, fecha_inicial, fecha_final):
     try:
         atributo_especial = 'totalenternum' if mall_id not in [
-            5, 6, 27] else 'totalenter'
+            5, 6, 27, 30] else 'totalenter'
         query = f"SELECT MAX({atributo_especial}) AS Entradas, "\
                 f"DATE_FORMAT(date, '%m-%d') AS date " \
                 f"FROM datos_estadisticos_dia_r0 " \
@@ -822,9 +826,9 @@ def get_pdf_grafico_x_dia_r0(mall_id, fecha_inicial, fecha_final):
 def get_pdf_datos_r0(mall_id, fecha_inicial, fecha_final):
     try:
         atributo_especial = 'totalenternum' if mall_id not in [
-            5, 6, 27] else 'totalenter'
+            5, 6, 27, 30] else 'totalenter'
         atributo_especial2 = 'totalexitnum' if mall_id not in [
-            5, 6, 27] else 'totalexit'
+            5, 6, 27, 30] else 'totalexit'
         query = f"select sum({atributo_especial}) as tEntrada, "\
                 f"sum({atributo_especial2}) as tSalida " \
                 f"from datos_estadisticos_dia_r0 " \
@@ -839,8 +843,8 @@ def get_pdf_datos_r0(mall_id, fecha_inicial, fecha_final):
 
 def get_pdf_segmentos_entrada_r0(mall_id, fecha_inicial, fecha_final):
     try:
-        # atributo_especial = 'T0.totalenternum' if mall_id not in [5, 6, 27] else 'T0.totalenter'
-        # atributo_especial2 = 'T0.totalexitnum' if mall_id not in [5, 6, 27] else 'T0.totalexit'
+        # atributo_especial = 'T0.totalenternum' if mall_id not in [5, 6, 27, 30] else 'T0.totalenter'
+        # atributo_especial2 = 'T0.totalexitnum' if mall_id not in [5, 6, 27, 30] else 'T0.totalexit'
         query = f"select sum(T0.08) as sum_08, "\
                 f"sum(T0.09) as sum_09, " \
                 f"sum(T0.10) as sum_10, " \
@@ -890,7 +894,7 @@ def get_pdf_grafico_x_camara_r0(mall_id, fecha_inicial, fecha_final):
 def get_pdf_grafico_x_dia_r1(mall_id, fecha_inicial, fecha_final):
     try:
         atributo_especial = 'totalenternum' if mall_id not in [
-            5, 6, 27] else 'totalenter'
+            5, 6, 27, 30] else 'totalenter'
         query = f"SELECT MAX({atributo_especial}) AS Entradas, "\
                 f"DATE_FORMAT(date, '%m-%d') AS date " \
                 f"FROM datos_estadisticos_dia_r1 " \
@@ -906,9 +910,9 @@ def get_pdf_grafico_x_dia_r1(mall_id, fecha_inicial, fecha_final):
 def get_pdf_datos_r1(mall_id, fecha_inicial, fecha_final):
     try:
         atributo_especial = 'totalenternum' if mall_id not in [
-            5, 6, 27] else 'totalenter'
+            5, 6, 27, 30] else 'totalenter'
         atributo_especial2 = 'totalexitnum' if mall_id not in [
-            5, 6, 27] else 'totalexit'
+            5, 6, 27, 30] else 'totalexit'
         query = f"select sum({atributo_especial}) as tEntrada, "\
                 f"sum({atributo_especial2}) as tSalida " \
                 f"from datos_estadisticos_dia_r1 " \
@@ -923,8 +927,8 @@ def get_pdf_datos_r1(mall_id, fecha_inicial, fecha_final):
 
 def get_pdf_segmentos_entrada_r1(mall_id, fecha_inicial, fecha_final):
     try:
-        # atributo_especial = 'T0.totalenternum' if mall_id not in [5, 6, 27] else 'T0.totalenter'
-        # atributo_especial2 = 'T0.totalexitnum' if mall_id not in [5, 6, 27] else 'T0.totalexit'
+        # atributo_especial = 'T0.totalenternum' if mall_id not in [5, 6, 27, 30] else 'T0.totalenter'
+        # atributo_especial2 = 'T0.totalexitnum' if mall_id not in [5, 6, 27, 30] else 'T0.totalexit'
         query = f"select sum(T0.08) as sum_08, "\
                 f"sum(T0.09) as sum_09, " \
                 f"sum(T0.10) as sum_10, " \
@@ -951,6 +955,101 @@ def get_pdf_segmentos_entrada_r1(mall_id, fecha_inicial, fecha_final):
     except Exception as e:
         print(f"Error en get_rango_etario_hoy: {str(e)}")
         return {}
+    
+def get_excel_segmentos_entrada_r1(mall_id, fecha_inicial, fecha_final):
+    try:
+        # atributo_especial = 'T0.totalenternum' if mall_id not in [5, 6, 27, 30] else 'T0.totalenter'
+        # atributo_especial2 = 'T0.totalexitnum' if mall_id not in [5, 6, 27, 30] else 'T0.totalexit'
+        query = f"select DATE_FORMAT(T0.date, '%d/%m/%Y') as date, sum(T0.08) as sum_08, "\
+                f"sum(T0.09) as sum_09, " \
+                f"sum(T0.10) as sum_10, " \
+                f"sum(T0.11) as sum_11, " \
+                f"sum(T0.12) as sum_12, " \
+                f"sum(T0.13) as sum_13, " \
+                f"sum(T0.14) as sum_14, " \
+                f"sum(T0.15) as sum_15, " \
+                f"sum(T0.16) as sum_16, " \
+                f"sum(T0.17) as sum_17, " \
+                f"sum(T0.18) as sum_18, " \
+                f"sum(T0.19) as sum_19, " \
+                f"sum(T0.20) as sum_20, " \
+                f"sum(T0.21) as sum_21, " \
+                f"sum(T0.22) as sum_22, " \
+                f"sum(T0.23) as sum_23, " \
+                f"Tipo " \
+                f"from datos_seg_historicos_r1 as T0 "\
+                f"where Tipo = 'Total Entradas' "\
+                f"and date between '{fecha_inicial}' AND '{fecha_final}' "\
+                f"GROUP BY T0.Tipo, T0.date"                  
+        # "group by date"
+        data = ejecutar_consulta(query, mall_id=mall_id)
+        return data if data else []
+    except Exception as e:
+        print(f"Error en get_excel_segmentos_entrada_r1: {str(e)}")
+        return {}
+def get_excel_segmentos_entrada_r2(mall_id, fecha_inicial, fecha_final):
+    try:
+        # atributo_especial = 'T0.totalenternum' if mall_id not in [5, 6, 27, 30] else 'T0.totalenter'
+        # atributo_especial2 = 'T0.totalexitnum' if mall_id not in [5, 6, 27, 30] else 'T0.totalexit'
+        query = f"select DATE_FORMAT(date, '%d/%m/%Y') as date, sum(T0.08) as sum_08, "\
+                f"sum(T0.09) as sum_09, " \
+                f"sum(T0.10) as sum_10, " \
+                f"sum(T0.11) as sum_11, " \
+                f"sum(T0.12) as sum_12, " \
+                f"sum(T0.13) as sum_13, " \
+                f"sum(T0.14) as sum_14, " \
+                f"sum(T0.15) as sum_15, " \
+                f"sum(T0.16) as sum_16, " \
+                f"sum(T0.17) as sum_17, " \
+                f"sum(T0.18) as sum_18, " \
+                f"sum(T0.19) as sum_19, " \
+                f"sum(T0.20) as sum_20, " \
+                f"sum(T0.21) as sum_21, " \
+                f"sum(T0.22) as sum_22, " \
+                f"sum(T0.23) as sum_23, " \
+                f"Tipo " \
+                f"from datos_seg_historicos_r2 as T0 "\
+                f"where Tipo = 'Total Entradas' "\
+                f"and date between '{fecha_inicial}' AND '{fecha_final}' "\
+                f"GROUP BY T0.Tipo, T0.date"        # "group by date"
+        data = ejecutar_consulta(query, mall_id=mall_id)
+        return data if data else []
+    except Exception as e:
+        print(f"Error en get_excel_segmentos_entrada_r2: {str(e)}")
+        return {}
+    
+def get_excel_segmentos_entrada_r3(mall_id, fecha_inicial, fecha_final):
+    try:
+        # atributo_especial = 'T0.totalenternum' if mall_id not in [5, 6, 27, 30] else 'T0.totalenter'
+        # atributo_especial2 = 'T0.totalexitnum' if mall_id not in [5, 6, 27, 30] else 'T0.totalexit'
+        query = f"select DATE_FORMAT(date, '%d/%m/%Y') as date, sum(T0.08) as sum_08, "\
+                f"sum(T0.09) as sum_09, " \
+                f"sum(T0.10) as sum_10, " \
+                f"sum(T0.11) as sum_11, " \
+                f"sum(T0.12) as sum_12, " \
+                f"sum(T0.13) as sum_13, " \
+                f"sum(T0.14) as sum_14, " \
+                f"sum(T0.15) as sum_15, " \
+                f"sum(T0.16) as sum_16, " \
+                f"sum(T0.17) as sum_17, " \
+                f"sum(T0.18) as sum_18, " \
+                f"sum(T0.19) as sum_19, " \
+                f"sum(T0.20) as sum_20, " \
+                f"sum(T0.21) as sum_21, " \
+                f"sum(T0.22) as sum_22, " \
+                f"sum(T0.23) as sum_23, " \
+                f"Tipo " \
+                f"from datos_seg_historicos_r3 as T0 "\
+                f"where Tipo = 'Total Entradas' "\
+                f"and date between '{fecha_inicial}' AND '{fecha_final}' "\
+                f"GROUP BY T0.Tipo, T0.date"
+        # "group by date"
+        data = ejecutar_consulta(query, mall_id=mall_id)
+        return data if data else []
+    except Exception as e:
+        print(f"Error en get_excel_segmentos_entrada_r3: {str(e)}")
+        return {}
+
 
 
 def get_pdf_grafico_x_camara_r1(mall_id, fecha_inicial, fecha_final):
@@ -974,7 +1073,7 @@ def get_pdf_grafico_x_camara_r1(mall_id, fecha_inicial, fecha_final):
 def get_pdf_grafico_x_dia_r2(mall_id, fecha_inicial, fecha_final):
     try:
         atributo_especial = 'totalenternum' if mall_id not in [
-            5, 6, 27] else 'totalenter'
+            5, 6, 27, 30] else 'totalenter'
         query = f"SELECT MAX({atributo_especial}) AS Entradas, "\
                 f"DATE_FORMAT(date, '%m-%d') AS date " \
                 f"FROM datos_estadisticos_dia_r2 " \
@@ -990,9 +1089,9 @@ def get_pdf_grafico_x_dia_r2(mall_id, fecha_inicial, fecha_final):
 def get_pdf_datos_r2(mall_id, fecha_inicial, fecha_final):
     try:
         atributo_especial = 'totalenternum' if mall_id not in [
-            5, 6, 27] else 'totalenter'
+            5, 6, 27, 30] else 'totalenter'
         atributo_especial2 = 'totalexitnum' if mall_id not in [
-            5, 6, 27] else 'totalexit'
+            5, 6, 27, 30] else 'totalexit'
         query = f"select sum({atributo_especial}) as tEntrada, "\
                 f"sum({atributo_especial2}) as tSalida " \
                 f"from datos_estadisticos_dia_r2 " \
@@ -1007,8 +1106,8 @@ def get_pdf_datos_r2(mall_id, fecha_inicial, fecha_final):
 
 def get_pdf_segmentos_entrada_r2(mall_id, fecha_inicial, fecha_final):
     try:
-        # atributo_especial = 'T0.totalenternum' if mall_id not in [5, 6, 27] else 'T0.totalenter'
-        # atributo_especial2 = 'T0.totalexitnum' if mall_id not in [5, 6, 27] else 'T0.totalexit'
+        # atributo_especial = 'T0.totalenternum' if mall_id not in [5, 6, 27, 30] else 'T0.totalenter'
+        # atributo_especial2 = 'T0.totalexitnum' if mall_id not in [5, 6, 27, 30] else 'T0.totalexit'
         query = f"select sum(T0.08) as sum_08, "\
                 f"sum(T0.09) as sum_09, " \
                 f"sum(T0.10) as sum_10, " \
@@ -1058,7 +1157,7 @@ def get_pdf_grafico_x_camara_r2(mall_id, fecha_inicial, fecha_final):
 def get_pdf_grafico_x_dia_r3(mall_id, fecha_inicial, fecha_final):
     try:
         atributo_especial = 'totalenternum' if mall_id not in [
-            5, 6, 27] else 'totalenter'
+            5, 6, 27, 30] else 'totalenter'
         query = f"SELECT MAX({atributo_especial}) AS Entradas, "\
                 f"DATE_FORMAT(date, '%m-%d') AS date " \
                 f"FROM datos_estadisticos_dia_r3 " \
@@ -1074,9 +1173,9 @@ def get_pdf_grafico_x_dia_r3(mall_id, fecha_inicial, fecha_final):
 def get_pdf_datos_r3(mall_id, fecha_inicial, fecha_final):
     try:
         atributo_especial = 'totalenternum' if mall_id not in [
-            5, 6, 27] else 'totalenter'
+            5, 6, 27, 30] else 'totalenter'
         atributo_especial2 = 'totalexitnum' if mall_id not in [
-            5, 6, 27] else 'totalexit'
+            5, 6, 27, 30] else 'totalexit'
         query = f"select sum({atributo_especial}) as tEntrada, "\
                 f"sum({atributo_especial2}) as tSalida " \
                 f"from datos_estadisticos_dia_r3 " \
@@ -1091,8 +1190,8 @@ def get_pdf_datos_r3(mall_id, fecha_inicial, fecha_final):
 
 def get_pdf_segmentos_entrada_r3(mall_id, fecha_inicial, fecha_final):
     try:
-        # atributo_especial = 'T0.totalenternum' if mall_id not in [5, 6, 27] else 'T0.totalenter'
-        # atributo_especial2 = 'T0.totalexitnum' if mall_id not in [5, 6, 27] else 'T0.totalexit'
+        # atributo_especial = 'T0.totalenternum' if mall_id not in [5, 6, 27, 30] else 'T0.totalenter'
+        # atributo_especial2 = 'T0.totalexitnum' if mall_id not in [5, 6, 27, 30] else 'T0.totalexit'
         query = f"select sum(T0.08) as sum_08, "\
                 f"sum(T0.09) as sum_09, " \
                 f"sum(T0.10) as sum_10, " \
@@ -1285,7 +1384,12 @@ def get_aforo_region(region, mall_id):
         return str(e)
 
 
-
+# def get_datos_patenetes():
+#     try:
+#         return 
+#     except Exception as e:
+#         return str(e)
+        
 def get_region1_data(mall_id):
 
     results = {
@@ -1469,6 +1573,74 @@ def get_aforo_data(region, mall_id):
         'data': get_aforo_region(region=region, mall_id=mall_id)
     }
     return results
+def get_datos_segmentados_excel(data_post, mall_id):
+    try:
+        seleccion = data_post[0]
+        fecha_inicial = data_post[1]
+        fecha_final = data_post[2]
+        atributo_especial = 'totalenternum' if mall_id not in [5, 6, 26, 27, 30] else 'totalenter'
+        datos_segmentados = []
+        if seleccion == '1':
+            datos_segmentados = get_excel_segmentos_entrada_r1(mall_id, fecha_inicial, fecha_final)
+        elif seleccion == '2':
+            datos_segmentados = get_excel_segmentos_entrada_r2(mall_id, fecha_inicial, fecha_final)
+        elif seleccion == '3':
+            datos_segmentados = get_excel_segmentos_entrada_r3(mall_id, fecha_inicial, fecha_final)
+
+        
+        results = {
+            'data': datos_segmentados
+        }
+        return results
+    except Exception as e:
+        print(f"Error en obtencion de malls: {str(e)}")
+        return str(e)
+
+def get_datos_dia_excel(data_post, mall_id):
+    try:
+        seleccion = data_post[0]
+        fecha_inicial = data_post[1]
+        fecha_final = data_post[2]
+        atributo_especial = 'totalenternum' if mall_id not in [5, 6, 26, 27, 30] else 'totalenter'
+        tabla = ''
+        if seleccion == '1':
+            tabla = 'datos_estadisticos_dia_r1'
+        elif seleccion == '2':
+            tabla = 'datos_estadisticos_dia_r2'
+        elif seleccion == '3':
+            tabla = 'datos_estadisticos_dia_r3'
+        # query = "SELECT {}, date FROM {} WHERE date BETWEEN %s AND %s".format(atributo_especial, tabla)
+        query = f"SELECT {atributo_especial}, DATE_FORMAT(date, '%d/%m/%Y') as date "\
+                f"FROM {tabla} "\
+                f"WHERE date between '{fecha_inicial}' and '{fecha_final}'"
+        data = ejecutar_consulta(query, mall_id=mall_id)
+        
+        results = {'data': data}
+        return results
+    except Exception as e:
+        print(f"Error en obtencion de malls: {str(e)}")
+        return str(e)
+
+@app.route('/api/get-datos-segmentados-excel/<int:mall_id>', methods=['POST'])
+def obtener_datos_segementados_excel(mall_id):
+    try:
+        data_post = request.json
+        print(data_post)
+        response = jsonify(get_datos_segmentados_excel(data_post, mall_id))
+        return response
+    except Exception as e:
+        print(f"Error en obtencion de datos: {str(e)}")
+        return str(e)
+@app.route('/api/get-datos-dia-excel/<int:mall_id>', methods=['POST'])
+def obtener_datos_dia_excel(mall_id):
+    try:
+        data_post = request.json
+        print(data_post)
+        response = jsonify(get_datos_dia_excel(data_post, mall_id))
+        return response
+    except Exception as e:
+        print(f"Error en obtencion de datos: {str(e)}")
+        return str(e)
 
 @app.route('/api/get-aforo/<string:region>/<int:mall_id>', methods=['GET'])
 def get_aforo(region, mall_id):
@@ -1570,4 +1742,4 @@ def obtener_nombre_camaras():
     return response
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

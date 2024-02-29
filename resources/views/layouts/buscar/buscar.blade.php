@@ -136,7 +136,8 @@
                         <h1 class="display-6" style="text-align: center">
                             @if (empty($fecha_inicial) && empty($fecha_final))
                                 0
-                                @else{{ number_format($datos->tEntrada, 0, ',', '.') }}
+                            @elseif (!empty($datos->tEntrada))
+                                {{ number_format($datos->tEntrada, 0, ',', '.') }}
                             @endif
                         </h1>
                     </div>
@@ -177,9 +178,11 @@
                             <th scope="row">Entradas</th>
 
                             @foreach ($datos_segmentados as $key => $value)
-                                <td>
-                                    {{ $value }}
-                                </td>
+                                @if (is_numeric($value))
+                                    <td>
+                                        {{ formatear_miles($value) }}
+                                    </td>
+                                @endif
                             @endforeach
                         </tr>
                     </tbody>

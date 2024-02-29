@@ -46,7 +46,7 @@ class LoginController extends Controller
         $session->put('user_data', $user);
         // pre_die("das");
         if ($user->role_id == 3) {
-            return redirect()->route('gerentes/administracion');
+            return redirect()->route('gerentes/resumen');
         } elseif ($mall->acceso_r0 == true) {
             $view_r0 = GetRowByWhere('view_region_r0', ['mall_id' => $mall->id]);
             return redirect()->route('acceso.r0', ['url' => $view_r0->url_region]);

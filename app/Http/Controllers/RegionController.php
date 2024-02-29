@@ -28,7 +28,7 @@ class RegionController extends Controller
         $idmall = auth()->user()->id_mall;
 
         $region1 = GetDataApi('region1', $idmall);
-
+        // pre_die($region1);
         $aforoHoy = !empty($region1->aforo_hoy_r1) ? $region1->aforo_hoy_r1 : [];
         $aforoAyer = !empty($region1->aforo_ayer_r1) ? $region1->aforo_ayer_r1 : [];
         $personasSegmentoAyer = !empty($region1->personas_segmento_ayer_r1) ? $region1->personas_segmento_ayer_r1 : [];
@@ -55,18 +55,21 @@ class RegionController extends Controller
 
         $datosAnioAnt = [];
         $meses = obtenerMesesDelAnio();
-        // pre_die($region1);
-        foreach ($meses as $mes) {
-            $encontrado = false; // Bandera para verificar si se encontró el mes
-            foreach ($datosAnualesAnt as $dato) {
-                if (StrUpper($mes) == StrUpper($dato->mes)) {
-                    $datosAnioAnt[] = $dato;
-                    $encontrado = true;
-                    break; // Terminar el bucle una vez que se haya encontrado el mes
+        // pre_die($datosMensuales);
+        if (!empty($datosAnualesAnt)) {
+            # code...
+            foreach ($meses as $mes) {
+                $encontrado = false; // Bandera para verificar si se encontró el mes
+                foreach ($datosAnualesAnt as $dato) {
+                    if (StrUpper($mes) == StrUpper($dato->mes)) {
+                        $datosAnioAnt[] = $dato;
+                        $encontrado = true;
+                        break; // Terminar el bucle una vez que se haya encontrado el mes
+                    }
                 }
-            }
-            if (!$encontrado) {
-                $datosAnioAnt[] = []; // Si no se encontró el mes, agregar un array vacío
+                if (!$encontrado) {
+                    $datosAnioAnt[] = []; // Si no se encontró el mes, agregar un array vacío
+                }
             }
         }
         $datosAnualesAnt = $datosAnioAnt;

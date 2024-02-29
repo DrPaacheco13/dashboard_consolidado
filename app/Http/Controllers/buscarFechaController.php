@@ -75,7 +75,8 @@ class buscarFechaController extends Controller
             // if (!empty($datos)) {
             //     $datos = $datos[0];
             // }
-
+            // pre($region);
+            // pre_die($datos_segmentados);
             $data_fecha = [
                 'fecha_inicial' => $fecha_inicial,
                 'fecha_final' => $fecha_final,
@@ -98,7 +99,10 @@ class buscarFechaController extends Controller
         $acceso_mall = 'BUSQUEDA POR FECHAS';
 
         $valida_reload = true;
+        $nav_buscar_fechas = true;
+        // pre_die($datos_segmentados);
         return view('layouts.buscar.buscar', compact(
+            'nav_buscar_fechas',
             'seccion_flujo',
             'nombre_mall',
             'acceso_mall',
@@ -192,8 +196,9 @@ class buscarFechaController extends Controller
             'datos_segmentados' => !empty($datos_segmentados) ? $datos_segmentados : []
         ]);
 
+        // pre_die($seleccion);
         // pre_die($pdf);
-        ini_set('memory_limit', '526M');
+        ini_set('memory_limit', '-1');
 
 
         return $pdf->stream("$nombreMall " . $endDate . '.pdf');
@@ -207,14 +212,15 @@ class buscarFechaController extends Controller
         $seleccion = !empty($data_fecha['region']) ? $data_fecha['region'] : '';
         $opcion = !empty($data_fecha['tipo_filtro']) ? $data_fecha['tipo_filtro'] : '';
         $idmall = auth()->user()->id_mall;
-        //pre_die($data_fecha);
+        // pre_die(auth()->user()->mall);
+        $mall = GetRowByWhere('malls', ['id' => $idmall, 'estado' => true]);
         $nombre_acceso = '';
         if ($seleccion == 1) {
-            $nombre_acceso = 'Acceso_General';
+            $nombre_acceso = !empty($mall->acceso_r1_nombre) ? $mall->acceso_r1_nombre : 'Acceso';
         } elseif ($seleccion == 2) {
-            $nombre_acceso = 'Acceso_Exterior';
+            $nombre_acceso = !empty($mall->acceso_r2_nombre) ? $mall->acceso_r2_nombre : 'Acceso';
         } elseif ($seleccion == 3) {
-            $nombre_acceso = 'Acceso_Patio_Comida';
+            $nombre_acceso = !empty($mall->acceso_r3_nombre) ? $mall->acceso_r3_nombre : 'Acceso';
         } else {
             $seleccion = 1;
             $nombre_acceso = 'Acceso_General';

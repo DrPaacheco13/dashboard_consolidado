@@ -16,7 +16,7 @@
     <div class="sidebar">
 
         <!-- SidebarSearch Form -->
-        <div class="form-inline">
+        {{-- <div class="form-inline">
             <div class="input-group" data-widget="sidebar-search">
                 <input class="form-control form-control-sidebar" type="search" placeholder="Search"
                     aria-label="Search">
@@ -26,15 +26,17 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
+
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
+
                 <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                 @if (!empty($role_id) && $role_id == 3)
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="{{ route('gerentes/administracion') }}"
                             class="nav-link {{ !empty($nav_acceso_r0) ? 'active' : '' }}">
                             <i class="fas fa-universal-access"></i>
@@ -42,13 +44,13 @@
                                 Administración
                             </p>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a href="{{ route('gerentes/resumen') }}"
                             class="nav-link {{ !empty($resumen) ? 'active' : '' }}">
                             <i class="fas fa-universal-access"></i>
                             <p>
-                                Resumen
+                                RESUMEN
                             </p>
                         </a>
                     </li>
@@ -59,7 +61,7 @@
                                 class="nav-link {{ !empty($nav_acceso_r0) ? 'active' : '' }}">
                                 <i class="fas fa-universal-access"></i>
                                 <p>
-                                    {{ $mall->acceso_r0_nombre }}
+                                    {{ strUpper($mall->acceso_r0_nombre) }}
                                 </p>
                             </a>
                         </li>
@@ -70,7 +72,7 @@
                                 class="nav-link {{ !empty($nav_acceso_r1) ? 'active' : '' }}">
                                 <i class="fas fa-universal-access"></i>
                                 <p>
-                                    {{ $mall->acceso_r1_nombre }}
+                                    {{ strUpper($mall->acceso_r1_nombre) }}
                                 </p>
                             </a>
                         </li>
@@ -81,7 +83,7 @@
                                 class="nav-link {{ !empty($nav_acceso_r2) ? 'active' : '' }}">
                                 <i class="fas fa-universal-access"></i>
                                 <p>
-                                    {{ $mall->acceso_r2_nombre }}
+                                    {{ strUpper($mall->acceso_r2_nombre) }}
                                 </p>
                             </a>
                         </li>
@@ -92,7 +94,7 @@
                                 class="nav-link {{ !empty($nav_acceso_r3) ? 'active' : '' }}">
                                 <i class="fas fa-universal-access"></i>
                                 <p>
-                                    {{ $mall->acceso_r3_nombre }}
+                                    {{ strUpper($mall->acceso_r3_nombre) }}
                                 </p>
                             </a>
                         </li>
@@ -129,8 +131,9 @@
                         </li>
                     @endif
                     @if ($mall->acceso_r0 == true || $mall->acceso_r1 == true || $mall->acceso_r2 == true || $mall->acceso_r3 == true)
-                        <li class="nav-item @if (!empty($nav_buscar_fechas)) active @endif">
-                            <a href="{{ route('searchDate') }}" class="nav-link">
+                        <li class="nav-item">
+                            <a href="{{ route('searchDate') }}"
+                                class="nav-link {{ !empty($nav_buscar_fechas) ? 'active' : '' }}">
                                 <i class="fas fa-calendar-alt"></i>
                                 <p>
                                     BUSCAR POR FECHAS
@@ -139,9 +142,9 @@
                         </li>
                     @endif
 
-                    <li class="nav-item @if (!empty($nav_marketing)) menu-open @endif">
+                    <li class="nav-item {{ isset($nav_marketing_dia) || isset($nav_marketing_anterior) ? 'menu-open' : '' }}">
                         <a href="#"
-                            class="nav-link d-flex justifu-content-center items-align-center @if (!empty($nav_marketing)) active @endif">
+                            class="nav-link d-flex justifu-content-center items-align-center {{ isset($nav_marketing_dia) || isset($nav_marketing_anterior) ? 'active' : '' }}">
                             <i class="fas fa-poll pr-2 pt-1"></i>
                             <p>
                                 MARKETING
@@ -151,14 +154,15 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{ route('marketing') }}"
-                                    class="nav-link @if (!empty($nav_marketing_dia)) active @endif">
+                                    class="nav-link {{ !empty($nav_marketing_dia) ? 'active' : '' }} ">
                                     <i class="nav-icon fas fa-poll"></i>
                                     <p>Marketing del Día</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('marketing_yesterday') }}"
-                                    class="nav-link @if (!empty($nav_marketing_anterior)) active @endif">
+                                    class="nav-link {{ !empty($nav_marketing_anterior) ? 'active' : '' }} ">
+
                                     <i class="nav-icon fas fa-poll"></i>
                                     <p>Marketing Día Anterior</p>
                                 </a>

@@ -225,7 +225,15 @@
                                                                         <br>
                                                                         <div class="row d-flex justify-content-center pb-3">
                                                                             <div class="col-md-3">
-                                                                                <input type="text" id="marketing_id_1" name="camaras[0][marketing_id]" placeholder="Ingrese INDEXCODE de cámara" class="form-control text-center">
+                                                                                <h6>ID Entrada Camara</h6>
+                                                                            </div>
+                                                                            <div class="col-md-7">
+                                                                                <h6>Nombre Cámara</h6>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row d-flex justify-content-center pb-3">
+                                                                            <div class="col-md-3">
+                                                                                <input type="text" id="marketing_id_1" name="camaras[0][marketing_id]" placeholder="Ingrese ID de cámara" class="form-control text-center">
                                                                             </div>
                                                                             <div class="col-md-7">
                                                                                 <input type="text" id="nombre_camara_1" name="camaras[0][nombre_camara]" placeholder="Ingrese Nombre de cámara" class="form-control">

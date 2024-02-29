@@ -6,8 +6,11 @@
     $mall = GetMallsRegiones($idmall);
     // pre_die($mall);
 @endphp
-<nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background-color: #2C3E50;">
-    <ul class="navbar-nav {{ auth()->user()->temporal_user ? 'pl-1' : 'pl-5' }}">
+<nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background-color: #4a6595;">
+    <ul class="navbar-nav {{ auth()->user()->temporal_user ? 'pl-1' : 'pl-2' }}">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars text-white"></i></a>
+        </li>
         @if (auth()->user()->temporal_user)
             <li class="nav-item">
                 <a class="nav-link text-white fs-6"
@@ -17,9 +20,9 @@
             </li>
         @endif
         @if ($role_id == 3)
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link text-white" href="{{ route('gerentes/administracion') }}">Administración</a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a class="nav-link text-white" href="{{ route('gerentes/resumen') }}">Resumen</a>
             </li>
@@ -27,25 +30,25 @@
             @if ($mall->acceso_r0 == 1)
                 <li class="nav-item">
                     <a class="nav-link text-white"
-                        href="{{ route('acceso.r0', ['url' => $mall->url_region_r0]) }}">{{ $mall->acceso_r0_nombre }}</a>
+                        href="{{ route('acceso.r0', ['url' => $mall->url_region_r0]) }}">{{ strUpper($mall->acceso_r0_nombre) }}</a>
                 </li>
             @endif
             @if ($mall->acceso_r1 == true)
                 <li class="nav-item">
                     <a class="nav-link text-white"
-                        href="{{ route('acceso.r1', ['url' => $mall->url_region_r1]) }}">{{ $mall->acceso_r1_nombre }}</a>
+                        href="{{ route('acceso.r1', ['url' => $mall->url_region_r1]) }}">{{ strUpper($mall->acceso_r1_nombre) }}</a>
                 </li>
             @endif
             @if ($mall->acceso_r2 == 1)
                 <li class="nav-item">
                     <a class="nav-link text-white"
-                        href="{{ route('acceso.r2', ['url' => $mall->url_region_r2]) }}">{{ $mall->acceso_r2_nombre }}</a>
+                        href="{{ route('acceso.r2', ['url' => $mall->url_region_r2]) }}">{{ strUpper($mall->acceso_r2_nombre) }}</a>
                 </li>
             @endif
             @if ($mall->acceso_r3 == 1)
                 <li class="nav-item">
                     <a class="nav-link text-white"
-                        href="{{ route('acceso.r3', ['url' => $mall->url_region_r3]) }}">{{ $mall->acceso_r3_nombre }}</a>
+                        href="{{ route('acceso.r3', ['url' => $mall->url_region_r3]) }}">{{ strUpper($mall->acceso_r3_nombre) }}</a>
                 </li>
             @endif
             @if ($mall->acceso_tendencia == 1)

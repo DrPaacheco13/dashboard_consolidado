@@ -46,11 +46,14 @@ class SegmentoExcel implements FromView, ShouldAutoSize, WithHeadings
         $Consulta = new PDFModel();
         $mall = QueryBuilder('malls', ['id' => $idmall]);
         if ($seleccion == 1) {
-            $datos_segmentados = $Consulta->GetSegmentoEntradaGroupR1($this->fecha, $this->fecha2);
+            // $datos_segmentados = $Consulta->GetSegmentoEntradaGroupR1($this->fecha, $this->fecha2);
         } elseif ($seleccion == 2) {
-            $datos_segmentados = $Consulta->GetSegmentoEntradaGroupR2($this->fecha, $this->fecha2);
         } elseif ($seleccion == 3) {
         }
+        $endpoint = 'get-datos-segmentados-excel';
+        $datos_segmentados = GetDataApi($endpoint, $idmall,'','POST', [$seleccion, $this->fecha, $this->fecha2]);
+        $datos_segmentados = !empty($datos_segmentados) ? $datos_segmentados->data : [];
+        // pre_die($datos_segmentados);
         $nombre_mall = !empty($mall) ? $mall[0]->nombre : 'Sin Información';
         return view('layouts.buscar.excel', compact('datos_segmentados', 'seleccion', 'date', 'idmall', 'nombre_mall'));
     }

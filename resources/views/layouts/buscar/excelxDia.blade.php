@@ -12,6 +12,7 @@
         <th>Entradas</th>
     </tr>
     @foreach ($datos_segmentados as $item)
+
         <tr>
             <th>
                 {{ $item->date }}
@@ -20,7 +21,7 @@
                 {{ !empty($namemall) ? $namemall : '' }}
             </th>
             <td>
-                {{ $item->totalenternum }}
+                {{ !empty($item) ? ($item->totalenternum ?? $item->totalenter) : '0' }}
             </td>
         </tr>
     @endforeach

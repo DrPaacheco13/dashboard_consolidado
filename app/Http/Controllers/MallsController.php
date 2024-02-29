@@ -702,7 +702,7 @@ class MallsController extends Controller
         try {
             $post = $request->all();
             $requiredFields = ['host', 'port', 'user', 'name', 'password'];
-
+            // pre_die($post);
             if (!$omite && isset($post['data'])) {
                 $post = $post['data'];
             }
@@ -722,8 +722,8 @@ class MallsController extends Controller
                 'password' => trim($post['password']),
             ];
 
-            $nombre_camaras = GetDataApi('obtener-nombre-camaras', '', '', 'POST', json_encode($data));
-            // pre_die($nombre_camaras);
+            $nombre_camaras = GetDataApi('obtener-nombre-camaras', '', '', 'POST', ($data));
+            // pre_die("nombre_camaras");
             if (!empty($nombre_camaras)) {
                 $nombre_camaras = $nombre_camaras->camaras;
                 return response()->json(['tipo' => 'success', 'msg' => 'Conexión a Base de Datos establecida con éxito.', 'data' => $nombre_camaras ?: []]);

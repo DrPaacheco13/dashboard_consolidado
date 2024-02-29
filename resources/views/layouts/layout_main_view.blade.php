@@ -85,18 +85,24 @@
         }
 
         .selected_fila {
-            background-color: #354A5F !important;
+            background-color: #4a6595 !important;
             color: #fff !important;
         }
 
         [class*=sidebar-dark-] {
-            background-color: #34495E !important;
+            background-color: #4a6595 !important;
+        }
+        .nav-sidebar .nav-link p {
+            color: white;
+        }
+        .nav-sidebar .nav-link.active p {
+            color: black;
         }
     </style>
 </head>
 {{-- <body class="hold-transition sidebar-mini layout-fixed"> --}}
 
-<body class="hold-transition sidebar-mini" style="background-color: #F5F5F5 ;">
+<body class="hold-transition sidebar-mini" style="background-color: #4a6595 ;">
     <div id="app" class="wrapper">
 
         @auth

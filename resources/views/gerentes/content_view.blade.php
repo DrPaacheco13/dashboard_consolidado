@@ -10,7 +10,7 @@
                 <h3>Flujo de Clientes</h3>
                 <br>
                 <p>Total Entradas</p>
-                <b>{{ !empty($aforo_actual[0]) ? $aforo_actual[0]->Entradas : 0 }}</b>
+                <b>{{ !empty($aforo_actual[0]) ? formatear_miles($aforo_actual[0]->Entradas) : 0 }}</b>
                 <br>
             </div>
         </div>
