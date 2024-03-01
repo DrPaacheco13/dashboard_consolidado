@@ -14,7 +14,7 @@
         @foreach ($rangoEtario as $entrada)
             <div class="container">
                 <div class="row d-flex justify-content-center">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="info-box mb-3">
                             <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-clock"></i></span>
                             <div class="info-box-content">
@@ -25,13 +25,15 @@
                             </div>
                         </div>
                     </div>
-                    <header>
-                        <br>
-                        <h1 class="text-center">
-                            {{ !empty($entrada->titulo_entrada) ? $entrada->titulo_entrada : 'Datos' }}
-                        </h1>
-                        <br>
-                    </header>
+                    <div class="col-md-12">
+                        <header>
+                            <br>
+                            <h1 class="text-center">
+                                {{ !empty($entrada->titulo_entrada) ? $entrada->titulo_entrada : 'Datos' }}
+                            </h1>
+                            <br>
+                        </header>
+                    </div>
 
                 </div>
                 <div class="row">

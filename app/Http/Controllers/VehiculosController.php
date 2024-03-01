@@ -22,10 +22,10 @@ class VehiculosController extends Controller
         $view_vehicle = GetRowByWhere('view_vehicle', ['mall_id' => $idmall]);  
         $salidasVehiculos = null;
         if($view_vehicle->mostrar_flujo_personas){
-            $salidasVehiculos = GetDataApi('salidas-vehiculos', $idmall, ", personas");
+            $salidasVehiculos = GetDataApi('salidas-vehiculos', $idmall, "personas");
             // $salidasVehiculos = $VehiculosModel->salidasVehiculosTendencia();
         }else{
-            $salidasVehiculos = GetDataApi('salidas-vehiculos', $idmall, ', totalexit');
+            $salidasVehiculos = GetDataApi('salidas-vehiculos', $idmall, 'totalexit');
             // pre_die($salidasVehiculos);
         }
         // $patenteVehiculos = $VehiculosModel->patenteVehiculos();
@@ -40,8 +40,10 @@ class VehiculosController extends Controller
         // $datosAnuales = $VehiculosModel->datosAnuales();
         // $datosMensuales = $VehiculosModel->datosMensuales();
         $vehiculos = GetDataApi('vehiculos', $idmall);
-        // pre_die($vehiculos);
         $time_actualizacion = !empty($vehiculos->time_actualizacion) ? $vehiculos->time_actualizacion : [];
+        if ($roleid == 1) {
+            // pre_die($salidasVehiculos);
+        }
         $aforo_hoy_grafico = !empty($vehiculos->aforo_hoy_grafico) ? $vehiculos->aforo_hoy_grafico : [];
         $aforo_ayer = !empty($vehiculos->aforo_ayer) ? $vehiculos->aforo_ayer : [];
         $aforo_ayer_grafico = !empty($vehiculos->aforo_ayer_grafico) ? $vehiculos->aforo_ayer_grafico : [];

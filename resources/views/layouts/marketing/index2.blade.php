@@ -12,11 +12,13 @@
         @foreach ($rangoEtarioAnterior as $entrada)
             <div class="container">
                 <div class="row">
-                    <header>
-                        <h1 style="white-space: pre; font-size: 1.8rem; text-align: center">
-                            {{ !empty($entrada->titulo_entrada) ? $entrada->titulo_entrada : 'Camara' }}</h1>
-                        <br>
-                    </header>
+                    <div class="col-md-12 mt-1">
+                        <header>
+                            <h1 style="font-size: 1.8rem; text-align: center">
+                                {{ !empty($entrada->titulo_entrada) ? $entrada->titulo_entrada : 'Camara' }}</h1>
+                            <br>
+                        </header>
+                    </div>
                     <div class=" col-md-6 card mt-1">
                         <figure class="highcharts-figure">
                             <div id="chartGenero_{{ $entrada->id }}"></div>

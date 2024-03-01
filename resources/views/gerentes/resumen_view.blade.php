@@ -29,10 +29,10 @@
                                         {{ !empty($mall->mall->nombre) ? StrUpper($mall->mall->nombre) : 'Sin Información' }}
                                     </td>
                                     <td class="text-right">
-                                        {{ !empty($mall->aforo_actual_vehiculos) ? formatear_miles($mall->aforo_actual_vehiculos) : 'Sin Información' }}
+                                        {{ !empty($mall->aforo_actual_vehiculos) ? formatear_miles($mall->aforo_actual_vehiculos) : '--' }}
                                     </td>
                                     <td class="text-right">
-                                        {{ !empty($mall->aforo_actual_personas) ? formatear_miles($mall->aforo_actual_personas) : 'Sin Información' }}
+                                        {{ !empty($mall->aforo_actual_personas) ? formatear_miles($mall->aforo_actual_personas) : '--' }}
                                     </td>
                                     <td class="text-right">
                                         {{ !empty($mall->total_hombres) ? round($mall->total_hombres, 2) . '%' : 'Sin Información' }}

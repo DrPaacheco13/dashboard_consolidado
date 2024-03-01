@@ -8,23 +8,19 @@
                     <p class="datosHoy display-8" style="margin-left: 11px">
                     <h5>Estadísticas del día</h5>
                 </div> --}}
-                <div class="col-md-4">
+                <div class="col-md-6">
 
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-calendar"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text"><b>Estadísticas Del Día</b></span>
-                            <span class="info-box-number">{{ ucwords($fechaHoy) }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-clock"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text"><b>Última Actualización</b></span>
-                            <span class="info-box-number">
+                    <div class="card card-body">
+                        {{-- <span class="info-box-icon bg-primary elevation-1"></span> --}}
+                        <div class="row">
+                            <span class="col-6 text-center">
+                                <span class="info-box-icon bg-primary elevation-1 p-2"><i class="fas fa-calendar"></i></span>
+                                Datos Día: {{ ucwords($fechaHoy) }}
+                            </span>
+                            {{-- <span class="info-box-number">{{ ucwords($fechaHoy) }}</span> --}}
+                            <span class="col-6 text-center  ">
+                                <span class="info-box-icon bg-primary elevation-1 p-2"><i class="fas fa-clock"></i></span>
+                                Actualización:
                                 {{ !empty($timeActualizacion) ? $timeActualizacion[0]->tiempo : 'Sin Información' }}
                             </span>
                         </div>

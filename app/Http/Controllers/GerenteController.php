@@ -108,6 +108,7 @@ class GerenteController extends Controller
         $datos_malls = GetDataApi('resumen-malls', $distribucion_id);
         // pre_die($datos_malls);
         // pre('kie');
+        // pre_die($datos_malls);
 
         $data = [
             'resumen' => true,

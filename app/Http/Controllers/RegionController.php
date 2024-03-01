@@ -55,7 +55,7 @@ class RegionController extends Controller
 
         $datosAnioAnt = [];
         $meses = obtenerMesesDelAnio();
-        // pre_die($datosMensuales);
+        // pre_die($region1);
         if (!empty($datosAnualesAnt)) {
             # code...
             foreach ($meses as $mes) {

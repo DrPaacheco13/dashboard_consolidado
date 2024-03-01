@@ -7,9 +7,9 @@
         <div class="col-xl-3 d-flex align-items-center text-center">
             <div class="card card-body">
                 <br>
-                <h3>Flujo de Clientes</h3>
-                <br>
-                <p>Total Entradas</p>
+                {{-- <h3>Flujo de Clientes</h3> --}}
+                {{-- <br> --}}
+                <h3>Total Entradas</h3>
                 <b>{{ !empty($aforo_actual[0]) ? formatear_miles($aforo_actual[0]->Entradas) : 0 }}</b>
                 <br>
             </div>
@@ -178,7 +178,10 @@
             zoomType: "xy"
         },
         title: {
-            text: "Entrada"
+            text: "Flujo de Clientes",
+            style: {
+                fontSize: '30px' // Tamaño de letra para el título del gráfico
+            }
         },
         xAxis: {
             crosshair: true,

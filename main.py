@@ -24,11 +24,9 @@ credenciales_por_mall = {
     4: {'host': '186.10.7.214', 'user': 'panoramico', 'password': '#Dc7&Rvmy$bpx04A6U', 'database': 'data_panoramico'},
     5: {'host': '186.10.7.214', 'user': 'antofagasta', 'password': 'C#3t8JrQW7r3!AGt$5', 'database': 'data_euantofagasta'},
     6: {'host': '186.10.7.214', 'user': 'puntarenas', 'password': '!@9E5P8l25t2OQy*gV', 'database': 'data_eupuntarenas'},
-    14: {'host': '186.10.7.214', 'user': 'eulalaguna', 'password': 'l9O"4zrG2Oo7U-vg*I', 'database': 'data_eulalaguna'},
-    # 26: {'host': '186.10.7.214', 'user': 'eulalaguna', 'password': 'l9O"4zrG2Oo7U-vg*I', 'database': 'data_eulalaguna'},
-    # 16: {'host': '186.10.7.214', 'user': 'granavenida', 'password': '9_uB<6]TjP_hWl24d4', 'database': 'data_granavenida'},
-    27: {'host': '186.10.7.214', 'user': 'granavenida', 'password': '9_uB<6]TjP_hWl24d4', 'database': 'data_granavenida'},
-    30: {'host': '186.10.7.214', 'user': 'puentealto', 'password': 'ZPS8+x]Lu8D?W>8(7F', 'database': 'data_puentealto'},
+    7: {'host': '186.10.7.214', 'user': 'eulalaguna', 'password': 'l9O"4zrG2Oo7U-vg*I', 'database': 'data_eulalaguna'},
+    8: {'host': '186.10.7.214', 'user': 'granavenida', 'password': '9_uB<6]TjP_hWl24d4', 'database': 'data_granavenida'},
+    9: {'host': '186.10.7.214', 'user': 'puentealto', 'password': 'ZPS8+x]Lu8D?W>8(7F', 'database': 'data_puentealto'},
 }
 
 
@@ -769,16 +767,19 @@ def get_datos_anuales_vehiculos(mall_id):
     return data if data else []
 
 
-def get_salidas_vehiculos(mall_id, select):
+def get_salidas_vehiculos(mall_id, select=''):
     try:
-        query = 'SELECT totalenter, TIME_FORMAT(time, "%H:%i") as tiempo, TIME_FORMAT(estadia, "%H:%i:%s") AS estadia ' + \
-            select + ' FROM vehiculos_total_dia'
+        query = 'SELECT totalenter, TIME_FORMAT(time, "%H:%i") as tiempo, TIME_FORMAT(estadia, "%H:%i:%s") AS estadia '
+        if select:
+            query += ', ' + select
+        query += ' FROM vehiculos_total_dia'
         data = ejecutar_consulta(query, mall_id=mall_id)
         return data if data else []
     except Exception as e:
         # Captura y maneja cualquier excepción ocurrida
         print(f"Error en get_salidas_vehiculos: {str(e)}")
         return {}
+
 
 
 def get_rango_etario_hoy(mall_id):
@@ -1252,9 +1253,9 @@ def get_malls_x_distribucion(distribucion_id):
 
 def get_administracion_gerente(distribucion_id):
     try:
+        print("malls")
         malls = get_malls_x_distribucion(distribucion_id)
         datos_malls = {}
-        print(malls)
         for mall in malls:
             datos_push = {'mall': mall}
             
@@ -1281,15 +1282,15 @@ def get_administracion_gerente(distribucion_id):
 def get_resumen_malls(distribucion_id):
     try:
         datos_malls = {}
-        
         malls = get_malls_x_distribucion(distribucion_id)
         for mall in malls:
             datos_push = {'mall': mall}
             
+            # print(mall)
             if mall['acceso_vehicle']:
                 # print(mall['id'])
-                data_vehiculos = get_salidas_vehiculos(mall_id=mall['id'], select='')
-                # print(data_vehiculos)
+                data_vehiculos = get_salidas_vehiculos(mall_id=mall['id'])
+                print(data_vehiculos)
                 if data_vehiculos is not None:
                     datos_push['aforo_actual_vehiculos'] = data_vehiculos[0]["totalenter"]
 
@@ -1727,6 +1728,7 @@ def pdf_r3(mall_id, fecha_inicial, fecha_final):
 
 @app.route('/api/administracion-gerente/<int:distribucion_id>', methods=['GET'])
 def administracion_gerente(distribucion_id):
+    # print("kasjdksa")
     response = jsonify(get_datos_administacion_gerente(distribucion_id))
     return response
 @app.route('/api/resumen-malls/<int:distribucion_id>', methods=['GET'])
